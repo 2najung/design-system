@@ -14,17 +14,12 @@ const meta: Meta<typeof LNBItemGroup> = {
   component: LNBItemGroup,
   parameters: { layout: 'centered' },
   tags: ['autodocs'],
-  argTypes: {
-    title: { control: { type: 'text' } },
-    lang: { control: { type: 'select' }, options: ['ko', 'en'] },
-  },
-  args: { title: '설정', lang: 'ko' },
 };
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
+export const Playground: Story = {
   render: (args) => (
     <div style={{ width: 280 }}>
       <LNBItemGroup {...args}>
@@ -34,4 +29,8 @@ export const Default: Story = {
       </LNBItemGroup>
     </div>
   ),
+  args: { title: '설정' },
+  argTypes: {
+    title: { control: 'text' },
+  },
 };

@@ -1,3 +1,5 @@
+import React from 'react';
+
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Callout } from '../components/Callout';
@@ -5,61 +7,13 @@ import { Callout } from '../components/Callout';
 const meta: Meta<typeof Callout> = {
   title: 'Components/Data Display/Callout',
   component: Callout,
+  tags: ['autodocs'],
   parameters: {
-    layout: 'centered',
+    layout: 'fullscreen',
     docs: {
       description: {
         component:
-          '콜아웃(Callout)은 사용자에게 특정 콘텐츠나 영역과 직접적으로 연결된 보조 메시지를 제공할 때 시각적으로 강조하여 제공하는 컴포넌트로, 사용자가 정보를 빠르게 인지하고 필요한 조치를 취할 수 있도록 돕습니다.',
-      },
-    },
-  },
-  tags: ['autodocs'],
-  argTypes: {
-    variant: {
-      control: { type: 'select' },
-      options: ['primary', 'secondary', 'positive', 'negative', 'cautionary', 'info'],
-      description: 'Callout 변형',
-      table: {
-        type: { summary: 'primary | secondary | positive | negative | cautionary | info' },
-        defaultValue: { summary: 'primary' },
-      },
-    },
-    title: {
-      control: { type: 'text' },
-      description: '제목 텍스트',
-      table: {
-        type: { summary: 'string' },
-      },
-    },
-    description: {
-      control: { type: 'text' },
-      description: '설명 텍스트',
-      table: {
-        type: { summary: 'string' },
-      },
-    },
-    leadingIcon: {
-      control: { type: 'boolean' },
-      description: 'Leading Icon 표시 여부',
-      table: {
-        type: { summary: 'boolean' },
-        defaultValue: { summary: 'true' },
-      },
-    },
-    trailingIcon: {
-      control: { type: 'boolean' },
-      description: 'Trailing Icon 표시 여부',
-      table: {
-        type: { summary: 'boolean' },
-        defaultValue: { summary: 'false' },
-      },
-    },
-    onTrailingIconClick: {
-      action: 'trailing-icon-clicked',
-      description: 'Trailing Icon 클릭 이벤트',
-      table: {
-        type: { summary: '() => void' },
+          '사용자에게 보조 메시지를 시각적으로 강조하여 제공하는 콜아웃 컴포넌트입니다. 6가지 variant를 지원합니다.',
       },
     },
   },
@@ -68,134 +22,85 @@ const meta: Meta<typeof Callout> = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Primary: Story = {
+const s = {
+  page: { padding: '40px', maxWidth: 960, margin: '0 auto', fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif" } as React.CSSProperties,
+  header: { marginBottom: 48 } as React.CSSProperties,
+  title: { fontSize: 28, fontWeight: 700, color: '#171719', margin: '0 0 8px', letterSpacing: -0.5 } as React.CSSProperties,
+  desc: { fontSize: 15, color: '#7b7e85', margin: 0, lineHeight: 1.5 } as React.CSSProperties,
+  sectionTitle: { fontSize: 13, fontWeight: 600, textTransform: 'uppercase' as const, letterSpacing: 1, color: '#8f9298', margin: '0 0 16px' } as React.CSSProperties,
+  card: { border: '1px solid #e6e7e9', borderRadius: 12, padding: '24px', marginBottom: 16 } as React.CSSProperties,
+  label: { fontSize: 11, color: '#8f9298', fontFamily: "'SF Mono', monospace" } as React.CSSProperties,
+};
+
+const variants = ['primary', 'secondary', 'positive', 'negative', 'cautionary', 'info'] as const;
+
+export const Playground: Story = {
+  parameters: { layout: 'centered' },
   args: {
     variant: 'primary',
-    title: '텍스트를 입력해 주세요.',
+    title: '안내 제목',
     description: '안내 텍스트를 입력해 주세요.',
     leadingIcon: true,
     trailingIcon: false,
   },
-};
-
-export const Secondary: Story = {
-  args: {
-    variant: 'secondary',
-    title: '텍스트를 입력해 주세요.',
-    description: '안내 텍스트를 입력해 주세요.',
-    leadingIcon: true,
-    trailingIcon: false,
+  argTypes: {
+    variant: { control: 'select', options: [...variants] },
+    title: { control: 'text' },
+    description: { control: 'text' },
+    leadingIcon: { control: 'boolean' },
+    trailingIcon: { control: 'boolean' },
   },
 };
 
-export const Positive: Story = {
-  args: {
-    variant: 'positive',
-    title: '텍스트를 입력해 주세요.',
-    description: '안내 텍스트를 입력해 주세요.',
-    leadingIcon: true,
-    trailingIcon: false,
-  },
-};
-
-export const Negative: Story = {
-  args: {
-    variant: 'negative',
-    title: '텍스트를 입력해 주세요.',
-    description: '안내 텍스트를 입력해 주세요.',
-    leadingIcon: true,
-    trailingIcon: false,
-  },
-};
-
-export const Cautionary: Story = {
-  args: {
-    variant: 'cautionary',
-    title: '텍스트를 입력해 주세요.',
-    description: '안내 텍스트를 입력해 주세요.',
-    leadingIcon: true,
-    trailingIcon: false,
-  },
-};
-
-export const Info: Story = {
-  args: {
-    variant: 'info',
-    title: '텍스트를 입력해 주세요.',
-    description: '안내 텍스트를 입력해 주세요.',
-    leadingIcon: true,
-    trailingIcon: false,
-  },
-};
-
-export const WithTrailingIcon: Story = {
-  args: {
-    variant: 'primary',
-    title: '텍스트를 입력해 주세요.',
-    description: '안내 텍스트를 입력해 주세요.',
-    leadingIcon: true,
-    trailingIcon: true,
-  },
-};
-
-export const WithoutLeadingIcon: Story = {
-  args: {
-    variant: 'primary',
-    title: '텍스트를 입력해 주세요.',
-    description: '안내 텍스트를 입력해 주세요.',
-    leadingIcon: false,
-    trailingIcon: false,
-  },
-};
-
-export const TitleOnly: Story = {
-  args: {
-    variant: 'primary',
-    title: '텍스트를 입력해 주세요.',
-    leadingIcon: true,
-    trailingIcon: false,
-  },
-};
-
-export const AllVariants: Story = {
+export const Overview: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', width: '500px' }}>
-      <Callout
-        variant='primary'
-        title='Primary'
-        description='안내 텍스트를 입력해 주세요.'
-        leadingIcon={true}
-      />
-      <Callout
-        variant='secondary'
-        title='Secondary'
-        description='안내 텍스트를 입력해 주세요.'
-        leadingIcon={true}
-      />
-      <Callout
-        variant='positive'
-        title='Success'
-        description='안내 텍스트를 입력해 주세요.'
-        leadingIcon={true}
-      />
-      <Callout
-        variant='negative'
-        title='Error'
-        description='안내 텍스트를 입력해 주세요.'
-        leadingIcon={true}
-      />
-      <Callout
-        variant='cautionary'
-        title='Warning'
-        description='안내 텍스트를 입력해 주세요.'
-        leadingIcon={true}
-      />
-      <Callout
-        variant='info'
-        title='Info'
-        description='안내 텍스트를 입력해 주세요.'
-        leadingIcon={true}
-      />
+    <div style={s.page}>
+      <div style={s.header}>
+        <h1 style={s.title}>Callout</h1>
+        <p style={s.desc}>
+          사용자에게 보조 메시지를 시각적으로 강조하여 제공합니다.
+          <br />
+          6가지 variant와 아이콘 옵션을 지원합니다.
+        </p>
+      </div>
+
+      <p style={s.sectionTitle}>Variants</p>
+      <div style={s.card}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          {variants.map((variant) => (
+            <Callout
+              key={variant}
+              variant={variant}
+              title={variant.charAt(0).toUpperCase() + variant.slice(1)}
+              description='안내 텍스트를 입력해 주세요.'
+              leadingIcon
+            />
+          ))}
+        </div>
+      </div>
+
+      <p style={s.sectionTitle}>Content Options</p>
+      <div style={s.card}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <span style={s.label}>title + description + icon</span>
+            <Callout variant='primary' title='안내 제목' description='안내 텍스트를 입력해 주세요.' leadingIcon />
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <span style={s.label}>title only</span>
+            <Callout variant='primary' title='안내 제목만 표시합니다.' leadingIcon />
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <span style={s.label}>without icon</span>
+            <Callout variant='primary' title='안내 제목' description='아이콘 없이 텍스트만 표시합니다.' leadingIcon={false} />
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <span style={s.label}>with trailing icon</span>
+            <Callout variant='primary' title='안내 제목' description='닫기 아이콘을 포함합니다.' leadingIcon trailingIcon />
+          </div>
+        </div>
+      </div>
     </div>
   ),
 };

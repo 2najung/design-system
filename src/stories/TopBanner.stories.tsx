@@ -1,56 +1,21 @@
-import { useEffect, useState } from 'react';
+import React from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
 import BannerImage from '../assets/images/banner_sample.svg';
-import { TopBanner, TopBannerList } from '../components/TopBanner';
-
-// S3 JSON 데이터 타입 정의
-interface BannerData {
-  start: string;
-  end: string;
-  env: string;
-  bg_color: string;
-  channels: string[];
-  kor: {
-    image_url: string;
-    landing_url: string;
-  };
-  eng: {
-    image_url: string;
-    landing_url: string;
-  };
-}
+import { TopBanner } from '../components/TopBanner';
 
 const meta = {
   title: 'Components/Data Display/TopBanner',
   component: TopBanner,
+  tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',
     docs: {
       description: {
         component:
-          'TopBanner는 페이지 상단에 표시되는 띠배너 컴포넌트입니다. API로 받은 이미지를 동적으로 표시하고, 날짜 범위에 따라 자동으로 노출/숨김 처리됩니다.',
+          '페이지 상단에 표시되는 띠배너 컴포넌트입니다. 날짜 범위에 따라 자동 노출/숨김 처리됩니다.',
       },
-    },
-  },
-  tags: ['autodocs'],
-  argTypes: {
-    src: {
-      control: 'text',
-      description: '배너 이미지 URL',
-    },
-    link: {
-      control: 'text',
-      description: '배너 클릭 시 이동할 URL',
-    },
-    startDate: {
-      control: 'text',
-      description: '노출 시작 날짜 (ISO 8601 형식)',
-    },
-    endDate: {
-      control: 'text',
-      description: '노출 종료 날짜 (ISO 8601 형식)',
     },
   },
 } satisfies Meta<typeof TopBanner>;
@@ -58,199 +23,63 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
+const s = {
+  page: { padding: '40px', maxWidth: 960, margin: '0 auto', fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif" } as React.CSSProperties,
+  header: { marginBottom: 48 } as React.CSSProperties,
+  title: { fontSize: 28, fontWeight: 700, color: '#171719', margin: '0 0 8px', letterSpacing: -0.5 } as React.CSSProperties,
+  desc: { fontSize: 15, color: '#7b7e85', margin: 0, lineHeight: 1.5 } as React.CSSProperties,
+  sectionTitle: { fontSize: 13, fontWeight: 600, textTransform: 'uppercase' as const, letterSpacing: 1, color: '#8f9298', margin: '0 0 16px' } as React.CSSProperties,
+  card: { border: '1px solid #e6e7e9', borderRadius: 12, padding: '24px', marginBottom: 16 } as React.CSSProperties,
+  label: { fontSize: 11, color: '#8f9298', fontFamily: "'SF Mono', monospace" } as React.CSSProperties,
+};
+
+export const Playground: Story = {
   args: {
     src: BannerImage,
     link: 'https://example.com',
   },
-};
-
-export const WithDateRange: Story = {
-  args: {
-    src: BannerImage,
-    link: 'https://example.com',
-    startDate: '2025-01-01',
-    endDate: '2025-12-31',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story:
-          'startDate와 endDate를 설정하여 특정 기간에만 배너를 표시할 수 있습니다. 현재 날짜가 범위를 벗어나면 배너가 렌더링되지 않습니다.',
-      },
-    },
+  argTypes: {
+    src: { control: 'text' },
+    link: { control: 'text' },
+    startDate: { control: 'text' },
+    endDate: { control: 'text' },
   },
 };
 
-// TopBannerList 예시
-export const ListMultiple = {
-  render: () => {
-    const [bannerList, setBannerList] = useState<BannerData[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const language = 'kor';
+export const Overview: Story = {
+  args: { src: BannerImage },
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <div style={s.page}>
+      <div style={s.header}>
+        <h1 style={s.title}>Top Banner</h1>
+        <p style={s.desc}>
+          페이지 상단에 표시되는 띠배너 컴포넌트입니다.
+          <br />
+          날짜 범위 설정으로 자동 노출/숨김 처리됩니다.
+        </p>
+      </div>
 
-    useEffect(() => {
-      fetch('/api/banner_list.json')
-        .then((res) => res.json())
-        .then((data: BannerData[]) => {
-          if (data && data.length > 0) {
-            setBannerList(data);
-          }
-          setIsLoading(false);
-        })
-        .catch((error) => {
-          console.error('Failed to fetch banner data:', error);
-          setIsLoading(false);
-        });
-    }, []);
+      <p style={s.sectionTitle}>Default</p>
+      <div style={s.card}>
+        <TopBanner src={BannerImage} link='https://example.com' />
+      </div>
 
-    if (isLoading) {
-      return <div style={{ padding: '20px', textAlign: 'center' }}>배너 데이터 로딩 중...</div>;
-    }
+      <p style={s.sectionTitle}>With Date Range (active)</p>
+      <div style={s.card}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <span style={s.label}>startDate: 2025-01-01 / endDate: 2030-12-31</span>
+          <TopBanner src={BannerImage} link='https://example.com' startDate='2025-01-01' endDate='2030-12-31' />
+        </div>
+      </div>
 
-    if (bannerList.length === 0) {
-      return (
-        <div style={{ padding: '20px', textAlign: 'center' }}>배너 데이터를 불러올 수 없습니다</div>
-      );
-    }
-
-    const transformedBanners = bannerList.map((banner) => ({
-      src: banner[language].image_url,
-      link: banner[language].landing_url,
-      startDate: banner.start,
-      endDate: banner.end,
-      backgroundColor: banner.bg_color,
-    }));
-
-    return <TopBannerList banners={transformedBanners} interval={4000} />;
-  },
-  parameters: {
-    docs: {
-      description: {
-        story:
-          'S3에서 배너 데이터를 불러와 TopBannerList로 여러 배너를 표시합니다. 자동으로 4초마다 전환됩니다.',
-      },
-    },
-  },
-};
-
-export const ListWithDateFilter = {
-  render: () => {
-    const [bannerList, setBannerList] = useState<BannerData[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const language = 'kor';
-
-    useEffect(() => {
-      fetch('/api/banner_list.json')
-        .then((res) => res.json())
-        .then((data: BannerData[]) => {
-          if (data && data.length > 0) {
-            setBannerList(data);
-          }
-          setIsLoading(false);
-        })
-        .catch((error) => {
-          console.error('Failed to fetch banner data:', error);
-          setIsLoading(false);
-        });
-    }, []);
-
-    if (isLoading) {
-      return <div style={{ padding: '20px', textAlign: 'center' }}>배너 데이터 로딩 중...</div>;
-    }
-
-    if (bannerList.length === 0) {
-      return (
-        <div style={{ padding: '20px', textAlign: 'center' }}>배너 데이터를 불러올 수 없습니다</div>
-      );
-    }
-
-    const transformedBanners = bannerList.map((banner) => ({
-      src: banner[language].image_url,
-      link: banner[language].landing_url,
-      startDate: banner.start,
-      endDate: banner.end,
-      backgroundColor: banner.bg_color,
-    }));
-
-    return <TopBannerList banners={transformedBanners} interval={4000} />;
-  },
-  parameters: {
-    docs: {
-      description: {
-        story:
-          'S3에서 배너 데이터를 불러와 TopBannerList로 표시합니다. TopBannerList는 내부에서 날짜 필터링을 자동으로 처리하며, 현재 날짜가 범위를 벗어난 배너는 자동으로 제외되어 유효한 배너들만 순환합니다.',
-      },
-    },
-  },
-};
-
-export const S3JsonExample = {
-  render: () => {
-    const [bannerList, setBannerList] = useState<BannerData[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const language = 'kor';
-
-    useEffect(() => {
-      // S3 JSON 데이터 fetch
-      fetch('/api/banner_list.json')
-        .then((res) => res.json())
-        .then((data: BannerData[]) => {
-          if (data && data.length > 0) {
-            setBannerList(data);
-          }
-          setIsLoading(false);
-        })
-        .catch((error) => {
-          console.error('Failed to fetch banner data:', error);
-          setIsLoading(false);
-        });
-    }, []);
-
-    if (isLoading) {
-      return <div style={{ padding: '20px', textAlign: 'center' }}>배너 데이터 로딩 중...</div>;
-    }
-
-    if (bannerList.length === 0) {
-      return (
-        <div style={{ padding: '20px', textAlign: 'center' }}>배너 데이터를 불러올 수 없습니다</div>
-      );
-    }
-
-    // JSON 데이터를 TopBannerList가 받을 수 있는 형태로 변환
-    const transformedBanners = bannerList.map((banner) => ({
-      src: banner[language].image_url,
-      link: banner[language].landing_url,
-      startDate: banner.start,
-      endDate: banner.end,
-      backgroundColor: banner.bg_color,
-    }));
-
-    return <TopBannerList banners={transformedBanners} interval={4000} />;
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: `
-S3 JSON 데이터를 실제로 fetch하여 표시하는 예시입니다.
-
-**JSON 구조:**
-- \`start\`, \`end\`: 노출 기간 (ISO 8601 형식)
-- \`channels\`: 노출할 채널 목록
-- \`env\`: 환경 (prod, dev, staging)
-- \`kor\`, \`eng\`: 언어별 이미지 URL과 랜딩 URL
-
-**사용 방법:**
-1. S3에서 JSON 데이터 fetch
-2. 채널/환경 필터링 (각 프로젝트에서 처리)
-3. 언어 선택 후 \`{ src, link, startDate, endDate }\` 형태로 변환
-4. TopBannerList에 전달하면 자동으로 날짜 필터링 + 4초마다 전환
-
-**특징:**
-- TopBannerList가 날짜 필터링과 자동 전환을 모두 처리
-- 프로젝트는 데이터 fetch와 변환만 하면 됨
-        `,
-      },
-    },
-  },
+      <p style={s.sectionTitle}>Expired (not visible)</p>
+      <div style={s.card}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <span style={s.label}>endDate: 2024-01-01 (expired - nothing renders below)</span>
+          <TopBanner src={BannerImage} link='https://example.com' startDate='2023-01-01' endDate='2024-01-01' />
+        </div>
+      </div>
+    </div>
+  ),
 };

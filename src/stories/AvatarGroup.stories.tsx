@@ -3,18 +3,17 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { AvatarGroup } from '../components/Avatar';
-import type { AvatarGroupProps } from '../components/Avatar/AvatarGroup';
 
 const meta = {
   title: 'Components/Data Display/AvatarGroup',
   component: AvatarGroup,
   tags: ['autodocs'],
   parameters: {
-    layout: 'centered',
+    layout: 'fullscreen',
     docs: {
       description: {
         component:
-          'AvatarGroup은 그룹화된 다수의 아바타를 표시할 때 사용합니다. 최대 4개까지 표시하며, 드롭다운 아이콘이 함께 표시됩니다.',
+          '그룹화된 다수의 아바타를 표시하는 컴포넌트입니다. 최대 표시 개수를 제한할 수 있습니다.',
       },
     },
   },
@@ -23,30 +22,21 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const sampleAvatars = [
-  { type: 'default' as const },
-  { type: 'default' as const },
-  { type: 'default' as const },
-  { type: 'default' as const },
-];
+const s = {
+  page: { padding: '40px', maxWidth: 960, margin: '0 auto', fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif" } as React.CSSProperties,
+  header: { marginBottom: 48 } as React.CSSProperties,
+  title: { fontSize: 28, fontWeight: 700, color: '#171719', margin: '0 0 8px', letterSpacing: -0.5 } as React.CSSProperties,
+  desc: { fontSize: 15, color: '#7b7e85', margin: 0, lineHeight: 1.5 } as React.CSSProperties,
+  sectionTitle: { fontSize: 13, fontWeight: 600, textTransform: 'uppercase' as const, letterSpacing: 1, color: '#8f9298', margin: '0 0 16px' } as React.CSSProperties,
+  card: { border: '1px solid #e6e7e9', borderRadius: 12, padding: '24px', marginBottom: 16 } as React.CSSProperties,
+  label: { fontSize: 11, color: '#8f9298', fontFamily: "'SF Mono', monospace" } as React.CSSProperties,
+};
 
-const customAvatars = [
-  {
-    type: 'custom' as const,
-    src: 'https://ecimg.cafe24img.com/pg299b34409484036/baekih1001/web/product/big/20240412/ecbb950ad71a5628d66fceef9809d028.jpg',
-  },
-  {
-    type: 'custom' as const,
-    src: 'https://ecimg.cafe24img.com/pg299b34409484036/baekih1001/web/product/big/20240412/ecbb950ad71a5628d66fceef9809d028.jpg',
-  },
-  {
-    type: 'custom' as const,
-    src: 'https://ecimg.cafe24img.com/pg299b34409484036/baekih1001/web/product/big/20240412/ecbb950ad71a5628d66fceef9809d028.jpg',
-  },
-  {
-    type: 'custom' as const,
-    src: 'https://ecimg.cafe24img.com/pg299b34409484036/baekih1001/web/product/big/20240412/ecbb950ad71a5628d66fceef9809d028.jpg',
-  },
+const defaultAvatars = [
+  { type: 'default' as const },
+  { type: 'default' as const },
+  { type: 'default' as const },
+  { type: 'default' as const },
 ];
 
 const initialAvatars = [
@@ -54,106 +44,72 @@ const initialAvatars = [
   { type: 'initial' as const, value: 'B' },
   { type: 'initial' as const, value: 'C' },
   { type: 'initial' as const, value: 'D' },
+  { type: 'initial' as const, value: 'E' },
+  { type: 'initial' as const, value: 'F' },
 ];
 
-export const Default: Story = {
+export const Playground: Story = {
+  parameters: { layout: 'centered' },
   render: (args) => <AvatarGroup {...args} />,
   args: {
-    avatars: sampleAvatars,
+    avatars: defaultAvatars,
     max: 4,
     state: 'default',
   },
-};
-
-export const WithCustomAvatars: Story = {
-  render: (args) => <AvatarGroup {...args} />,
-  args: {
-    avatars: customAvatars,
-    max: 4,
-    state: 'default',
+  argTypes: {
+    max: { control: { type: 'number', min: 1, max: 6 } },
+    state: { control: 'select', options: ['default', 'hovered', 'pressed', 'selected'] },
   },
 };
 
-export const WithInitialAvatars: Story = {
-  render: (args) => <AvatarGroup {...args} />,
-  args: {
-    avatars: initialAvatars,
-    max: 4,
-    state: 'default',
-  },
-};
-
-export const States: Story = {
+export const Overview: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-        <span style={{ width: '80px', fontSize: '14px' }}>Default</span>
-        <AvatarGroup avatars={sampleAvatars} state='default' />
+    <div style={s.page}>
+      <div style={s.header}>
+        <h1 style={s.title}>Avatar Group</h1>
+        <p style={s.desc}>
+          그룹화된 다수의 아바타를 표시합니다.
+          <br />
+          max로 최대 표시 개수를 제한하고, 다양한 상태를 지원합니다.
+        </p>
       </div>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-        <span style={{ width: '80px', fontSize: '14px' }}>Hovered</span>
-        <AvatarGroup avatars={sampleAvatars} state='hovered' />
+
+      <p style={s.sectionTitle}>Avatar Count</p>
+      <div style={s.card}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+          {[1, 2, 3, 4].map((count) => (
+            <div key={count} style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+              <span style={{ ...s.label, width: 60 }}>{count}개</span>
+              <AvatarGroup avatars={defaultAvatars.slice(0, count)} max={4} />
+            </div>
+          ))}
+        </div>
       </div>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-        <span style={{ width: '80px', fontSize: '14px' }}>Pressed</span>
-        <AvatarGroup avatars={sampleAvatars} state='pressed' />
+
+      <p style={s.sectionTitle}>Max Limit</p>
+      <div style={s.card}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+          {[2, 3, 4].map((max) => (
+            <div key={max} style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+              <span style={{ ...s.label, width: 100 }}>max={max} (6개)</span>
+              <AvatarGroup avatars={initialAvatars} max={max} />
+            </div>
+          ))}
+        </div>
       </div>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-        <span style={{ width: '80px', fontSize: '14px' }}>Selected</span>
-        <AvatarGroup avatars={sampleAvatars} state='selected' />
+
+      <p style={s.sectionTitle}>States</p>
+      <div style={s.card}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+          {(['default', 'hovered', 'pressed', 'selected'] as const).map((state) => (
+            <div key={state} style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+              <span style={{ ...s.label, width: 60 }}>{state}</span>
+              <AvatarGroup avatars={defaultAvatars} state={state} />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   ),
-};
-
-export const DifferentCounts: Story = {
-  render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-        <span style={{ width: '80px', fontSize: '14px' }}>1개</span>
-        <AvatarGroup avatars={sampleAvatars.slice(0, 1)} max={4} />
-      </div>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-        <span style={{ width: '80px', fontSize: '14px' }}>2개</span>
-        <AvatarGroup avatars={sampleAvatars.slice(0, 2)} max={4} />
-      </div>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-        <span style={{ width: '80px', fontSize: '14px' }}>3개</span>
-        <AvatarGroup avatars={sampleAvatars.slice(0, 3)} max={4} />
-      </div>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-        <span style={{ width: '80px', fontSize: '14px' }}>4개</span>
-        <AvatarGroup avatars={sampleAvatars} max={4} />
-      </div>
-    </div>
-  ),
-};
-
-export const MaxLimit: Story = {
-  render: () => {
-    const manyAvatars = [
-      { type: 'initial' as const, value: 'A' },
-      { type: 'initial' as const, value: 'B' },
-      { type: 'initial' as const, value: 'C' },
-      { type: 'initial' as const, value: 'D' },
-      { type: 'initial' as const, value: 'E' },
-      { type: 'initial' as const, value: 'F' },
-    ];
-    return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-          <span style={{ width: '120px', fontSize: '14px' }}>max=2</span>
-          <AvatarGroup avatars={manyAvatars} max={2} />
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-          <span style={{ width: '120px', fontSize: '14px' }}>max=3</span>
-          <AvatarGroup avatars={manyAvatars} max={3} />
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-          <span style={{ width: '120px', fontSize: '14px' }}>max=4 (기본)</span>
-          <AvatarGroup avatars={manyAvatars} max={4} />
-        </div>
-      </div>
-    );
-  },
 };
