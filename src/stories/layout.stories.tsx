@@ -100,7 +100,7 @@ export const Spacing: Story = {
                   style={{
                     height: 24,
                     width: value,
-                    background: 'linear-gradient(135deg, #bedbff 0%, #e9d4ff 100%)',
+                    backgroundColor: '#3182f6',
                     borderRadius: 4,
                     transition: 'width 0.2s ease',
                   }}
@@ -122,8 +122,8 @@ export const Spacing: Story = {
                   fontSize: 11,
                   padding: '3px 8px',
                   borderRadius: 4,
-                  background: highlights.includes(key) ? '#e9d4ff' : '#e6e7e9',
-                  color: highlights.includes(key) ? '#6c58be' : '#7b7e85',
+                  background: highlights.includes(key) ? '#e8f3ff' : '#f2f3f5',
+                  color: highlights.includes(key) ? '#3182f6' : '#7b7e85',
                   fontFamily: "'SF Mono', monospace",
                 }}
               >
@@ -159,8 +159,8 @@ export const RadiusTokens: Story = {
               style={{
                 width: '100%',
                 aspectRatio: '1',
-                background: 'linear-gradient(135deg, #eff6ff 0%, #f3e8ff 100%)',
-                border: '2px solid #e6e7e9',
+                backgroundColor: '#f2f3f5',
+                border: '1px solid #e6e7e9',
                 borderRadius: value,
                 display: 'flex',
                 alignItems: 'center',
@@ -198,41 +198,50 @@ export const ShadowTokens: Story = {
       <p style={s.sectionTitle}>Light Mode</p>
       <div
         style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
-          gap: 24,
+          backgroundColor: '#ffffff',
+          borderRadius: 16,
+          padding: 24,
           marginBottom: 48,
+          border: '1px solid #e6e7e9',
         }}
       >
-        {Object.entries(shadow.light).map(([key, value]) => (
-          <div key={key}>
-            <div
-              style={{
-                height: 120,
-                borderRadius: 16,
-                backgroundColor: '#ffffff',
-                boxShadow: value,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <span style={{ fontSize: 14, fontWeight: 600, color: '#525459' }}>{key}</span>
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+            gap: 24,
+          }}
+        >
+          {Object.entries(shadow.light).map(([key, value]) => (
+            <div key={key}>
+              <div
+                style={{
+                  height: 120,
+                  borderRadius: 16,
+                  backgroundColor: '#ffffff',
+                  boxShadow: value,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <span style={{ fontSize: 14, fontWeight: 600, color: '#525459' }}>{key}</span>
+              </div>
+              <div
+                style={{
+                  marginTop: 10,
+                  fontSize: 11,
+                  color: '#8f9298',
+                  fontFamily: "'SF Mono', monospace",
+                  lineHeight: 1.4,
+                  wordBreak: 'break-all',
+                }}
+              >
+                {value}
+              </div>
             </div>
-            <div
-              style={{
-                marginTop: 10,
-                fontSize: 11,
-                color: '#8f9298',
-                fontFamily: "'SF Mono', monospace",
-                lineHeight: 1.4,
-                wordBreak: 'break-all',
-              }}
-            >
-              {value}
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
       <p style={s.sectionTitle}>Dark Mode</p>

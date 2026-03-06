@@ -80,7 +80,7 @@ export const AllOpacities: Story = {
                   style={{
                     position: 'absolute',
                     inset: 0,
-                    background: 'linear-gradient(135deg, #2b7fff 0%, #ad46ff 100%)',
+                    backgroundColor: '#3182f6',
                     opacity: parseFloat(value),
                   }}
                 />
