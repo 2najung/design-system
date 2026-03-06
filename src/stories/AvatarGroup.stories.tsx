@@ -6,7 +6,7 @@ import { AvatarGroup } from '../components/Avatar';
 import type { AvatarGroupProps } from '../components/Avatar/AvatarGroup';
 
 const meta = {
-  title: 'Components/AvatarGroup',
+  title: 'Components/Data Display/AvatarGroup',
   component: AvatarGroup,
   tags: ['autodocs'],
   parameters: {

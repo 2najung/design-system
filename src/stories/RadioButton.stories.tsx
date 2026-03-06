@@ -23,7 +23,7 @@ const RadioButtonWithState = ({
 };
 
 const meta: Meta<typeof RadioButton> = {
-  title: 'Components/RadioButton',
+  title: 'Components/Inputs/RadioButton',
   component: RadioButton,
   tags: ['autodocs'],
   parameters: {

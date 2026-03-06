@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { LoadingIndicator } from '../components/LoadingIndicator';
 
 const meta: Meta<typeof LoadingIndicator> = {
-  title: 'Components/LoadingIndicator',
+  title: 'Components/Feedback/LoadingIndicator',
   component: LoadingIndicator,
   parameters: {
     layout: 'centered',

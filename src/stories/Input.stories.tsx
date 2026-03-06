@@ -42,7 +42,7 @@ const InputWithState = (props: InputProps) => {
 };
 
 const meta: Meta<typeof Input> = {
-  title: 'Components/Input',
+  title: 'Components/Inputs/Input',
   component: Input,
   parameters: {
     layout: 'centered',

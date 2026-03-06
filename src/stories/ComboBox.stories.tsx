@@ -28,7 +28,7 @@ const sampleOptions: ComboBoxOption[] = [
 ];
 
 const meta: Meta<typeof ComboBox> = {
-  title: 'Components/ComboBox',
+  title: 'Components/Inputs/ComboBox',
   component: ComboBox,
   parameters: {
     layout: 'centered',

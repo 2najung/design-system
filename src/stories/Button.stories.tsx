@@ -27,7 +27,7 @@ const RocketIcon = (props: React.SVGProps<SVGSVGElement>) => (
 
 // 메타데이터 정의
 const meta = {
-  title: 'Components/Button',
+  title: 'Components/Inputs/Button',
   component: SolidButton,
   tags: ['autodocs'],
   parameters: {

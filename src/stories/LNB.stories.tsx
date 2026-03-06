@@ -15,7 +15,7 @@ import {
 } from '../components/icons/generated';
 
 const meta: Meta<typeof LNB> = {
-  title: 'Components/LNB',
+  title: 'Components/Navigation/LNB',
   component: LNB,
   parameters: { layout: 'centered' },
   tags: ['autodocs'],

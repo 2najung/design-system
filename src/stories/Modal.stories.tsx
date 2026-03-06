@@ -62,7 +62,7 @@ const ModalWithState = ({
 };
 
 const meta: Meta<typeof Modal> = {
-  title: 'Components/Modal',
+  title: 'Components/Feedback/Modal',
   component: Modal,
   tags: ['autodocs'],
   parameters: {

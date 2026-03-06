@@ -49,7 +49,7 @@ const sampleOptions: DropdownOption[] = [
 ];
 
 const meta: Meta<typeof Dropdown> = {
-  title: 'Components/Dropdown',
+  title: 'Components/Inputs/Dropdown',
   component: Dropdown,
   parameters: {
     layout: 'padded',

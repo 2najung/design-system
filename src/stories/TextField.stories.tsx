@@ -13,7 +13,7 @@ const TextFieldWithState = (props: TextFieldProps) => {
 };
 
 const meta: Meta<typeof TextField> = {
-  title: 'Components/TextField',
+  title: 'Components/Inputs/TextField',
   component: TextField,
   parameters: {
     layout: 'centered',

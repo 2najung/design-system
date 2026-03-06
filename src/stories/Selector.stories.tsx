@@ -28,7 +28,7 @@ const sampleOptions: SelectorOption[] = [
 ];
 
 const meta: Meta<typeof Selector> = {
-  title: 'Components/Selector',
+  title: 'Components/Inputs/Selector',
   component: Selector,
   parameters: {
     layout: 'centered',

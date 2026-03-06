@@ -6,7 +6,7 @@ import { LNBItemProfile } from '../components';
 import { IconChevronRightOutline20 } from '../components/icons/generated';
 
 const meta: Meta<typeof LNBItemProfile> = {
-  title: 'Components/LNB/ItemProfile',
+  title: 'Components/Navigation/LNB/ItemProfile',
   component: LNBItemProfile,
   parameters: { layout: 'centered' },
   tags: ['autodocs'],

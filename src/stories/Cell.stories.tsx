@@ -4,7 +4,7 @@ import { Avatar, Cell } from '../components';
 import { IconHomeOutline16, IconSearchOutline16 } from '../components/icons/generated';
 
 const meta: Meta<typeof Cell> = {
-  title: 'Components/Cell',
+  title: 'Components/Data Display/Cell',
   component: Cell,
   parameters: {
     layout: 'centered',

@@ -6,7 +6,7 @@ import { MultiSelect } from '../components/MultiSelect';
 import type { MultiSelectProps } from '../components/MultiSelect/types';
 
 const meta = {
-  title: 'Components/MultiSelect',
+  title: 'Components/Inputs/MultiSelect',
   component: MultiSelect,
   tags: ['autodocs'],
   parameters: {

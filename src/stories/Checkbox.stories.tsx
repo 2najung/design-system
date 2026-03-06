@@ -30,7 +30,7 @@ const CheckboxWithState = ({
 };
 
 const meta: Meta<typeof Checkbox> = {
-  title: 'Components/Checkbox',
+  title: 'Components/Inputs/Checkbox',
   component: Checkbox,
   parameters: {
     layout: 'centered',

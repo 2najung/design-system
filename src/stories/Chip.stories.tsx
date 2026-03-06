@@ -4,7 +4,7 @@ import { Chip } from '../components/Chip';
 import type { ChipProps } from '../components/Chip/types';
 
 const meta = {
-  title: 'Components/Chip',
+  title: 'Components/Data Display/Chip',
   component: Chip,
   parameters: {
     layout: 'centered',

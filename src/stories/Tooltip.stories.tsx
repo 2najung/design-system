@@ -7,7 +7,7 @@ import { Tooltip } from '../components/Tooltip/Tooltip';
 import type { TooltipProps } from '../components/Tooltip/types';
 
 const meta = {
-  title: 'Components/Tooltip',
+  title: 'Components/Feedback/Tooltip',
   component: Tooltip,
   tags: ['autodocs'],
   parameters: {

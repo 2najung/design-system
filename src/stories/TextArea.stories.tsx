@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { TextArea } from '../components/TextArea';
 
 const meta: Meta<typeof TextArea> = {
-  title: 'Components/TextArea',
+  title: 'Components/Inputs/TextArea',
   component: TextArea,
   parameters: {
     layout: 'centered',

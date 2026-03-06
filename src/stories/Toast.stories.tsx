@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Toast, ToastSystem, toast } from '../components';
 
 const meta: Meta<typeof Toast> = {
-  title: 'Components/Toast',
+  title: 'Components/Feedback/Toast',
   component: Toast,
   parameters: {
     layout: 'fullscreen',

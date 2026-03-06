@@ -7,7 +7,7 @@ import type { SegmentedControlProps } from '../components/SegmentedControl/types
 
 // 메타데이터 정의
 const meta = {
-  title: 'Components/SegmentedControl',
+  title: 'Components/Navigation/SegmentedControl',
   component: SegmentedControl,
   tags: ['autodocs'],
   parameters: {

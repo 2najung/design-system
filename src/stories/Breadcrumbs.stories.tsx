@@ -7,7 +7,7 @@ import type { BreadcrumbsProps } from '../components/Breadcrumbs/types';
 import { Icons } from '../components/icons';
 
 const meta = {
-  title: 'Components/Breadcrumbs',
+  title: 'Components/Navigation/Breadcrumbs',
   component: Breadcrumbs,
   parameters: {
     layout: 'centered',

@@ -9,7 +9,7 @@ import {
 } from '../components/icons/generated';
 
 const meta: Meta<typeof Menu> = {
-  title: 'Components/Menu',
+  title: 'Components/Navigation/Menu',
   component: Menu,
   parameters: {
     layout: 'centered',

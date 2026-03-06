@@ -6,7 +6,7 @@ import type { BadgeProps } from '../components/Badge/types';
 import { IconDocumentOutline16 } from '../components/icons';
 
 const meta = {
-  title: 'Components/Badge',
+  title: 'Components/Data Display/Badge',
   component: Badge,
   tags: ['autodocs'],
   parameters: {

@@ -6,7 +6,7 @@ import { Popover } from '../components/Popover';
 import type { PopoverProps } from '../components/Popover/types';
 
 const meta = {
-  title: 'Components/Popover',
+  title: 'Components/Feedback/Popover',
   component: Popover,
   tags: ['autodocs'],
   parameters: {

@@ -32,7 +32,7 @@ const SearchfieldWithState = (props: any) => {
 };
 
 const meta: Meta<typeof Searchfield> = {
-  title: 'Components/Searchfield',
+  title: 'Components/Inputs/Searchfield',
   component: Searchfield,
   parameters: {
     layout: 'centered',

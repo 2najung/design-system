@@ -6,7 +6,7 @@ import { LNBItem } from '../components';
 import { IconPersonOutline20 } from '../components/icons/generated';
 
 const meta: Meta<typeof LNBItem> = {
-  title: 'Components/LNB/Item',
+  title: 'Components/Navigation/LNB/Item',
   component: LNBItem,
   parameters: { layout: 'centered' },
   tags: ['autodocs'],

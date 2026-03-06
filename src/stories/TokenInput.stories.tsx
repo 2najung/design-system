@@ -5,7 +5,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { TokenInput } from '../components/TokenInput';
 
 const meta: Meta<typeof TokenInput> = {
-  title: 'Components/TokenInput',
+  title: 'Components/Inputs/TokenInput',
   component: TokenInput,
   tags: ['autodocs'],
   argTypes: {

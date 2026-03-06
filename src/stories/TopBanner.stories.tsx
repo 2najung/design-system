@@ -23,7 +23,7 @@ interface BannerData {
 }
 
 const meta = {
-  title: 'Components/TopBanner',
+  title: 'Components/Data Display/TopBanner',
   component: TopBanner,
   parameters: {
     layout: 'fullscreen',

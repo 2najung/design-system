@@ -5,7 +5,7 @@ import { VisualTooltip } from '../components/Tooltip/VisualTooltip';
 import type { VisualTooltipProps } from '../components/Tooltip/types';
 
 const meta = {
-  title: 'Components/VisualTooltip',
+  title: 'Components/Feedback/VisualTooltip',
   component: VisualTooltip,
   tags: ['autodocs'],
   parameters: {

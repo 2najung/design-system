@@ -4,7 +4,7 @@ import { StepIndicator } from '../components/StepIndicator';
 import type { StepIndicatorProps } from '../components/StepIndicator/types';
 
 const meta = {
-  title: 'Components/StepIndicator',
+  title: 'Components/Navigation/StepIndicator',
   component: StepIndicator,
   tags: ['autodocs'],
   parameters: {

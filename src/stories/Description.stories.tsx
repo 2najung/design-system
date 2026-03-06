@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Description } from '../components';
 
 const meta: Meta<typeof Description> = {
-  title: 'Components/Description',
+  title: 'Components/Data Display/Description',
   component: Description,
   parameters: {
     layout: 'centered',

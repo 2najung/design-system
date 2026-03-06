@@ -10,7 +10,7 @@ import {
 } from '../components/icons/generated';
 
 const meta: Meta<typeof LNBItemGroup> = {
-  title: 'Components/LNB/ItemGroup',
+  title: 'Components/Navigation/LNB/ItemGroup',
   component: LNBItemGroup,
   parameters: { layout: 'centered' },
   tags: ['autodocs'],

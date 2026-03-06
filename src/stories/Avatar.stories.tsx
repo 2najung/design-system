@@ -17,7 +17,7 @@ const UserIcon = (props: React.SVGProps<SVGSVGElement>) => (
 
 // 메타데이터 정의
 const meta = {
-  title: 'Components/Avatar',
+  title: 'Components/Data Display/Avatar',
   component: Avatar,
   tags: ['autodocs'],
   parameters: {

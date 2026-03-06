@@ -4,7 +4,7 @@ import { BreadcrumbItem } from '../components/Breadcrumbs/BreadcrumbItem';
 import { Icons } from '../components/icons';
 
 const meta: Meta<typeof BreadcrumbItem> = {
-  title: 'Components/Breadcrumbs/BreadcrumbItem',
+  title: 'Components/Navigation/Breadcrumbs/BreadcrumbItem',
   component: BreadcrumbItem,
   parameters: {
     layout: 'centered',

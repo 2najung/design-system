@@ -7,7 +7,7 @@ import { ChipTabs } from '../components/ChipTabs';
 import type { ChipTabsProps } from '../components/ChipTabs/types';
 
 const meta = {
-  title: 'Components/ChipTabs',
+  title: 'Components/Navigation/ChipTabs',
   component: ChipTabs,
   tags: ['autodocs'],
   parameters: {
