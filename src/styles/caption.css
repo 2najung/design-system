@@ -1,0 +1,7 @@
+.caption1 {
+  @apply text-t1 leading-t1 font-400 tracking-md font-sans;
+}
+
+.caption2 {
+  @apply text-t2 leading-t2 font-400 tracking-md font-sans;
+}

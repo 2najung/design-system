@@ -1,0 +1,31 @@
+import React from 'react';
+
+interface IconCheckProps {
+  width?: number;
+  height?: number;
+  color?: string;
+  className?: string;
+}
+
+export const IconCheck: React.FC<IconCheckProps> = ({
+  width = 14,
+  height = 14,
+  color = '#0F0F10',
+  className = '',
+}) => {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox='0 0 16 16'
+      fill='none'
+      xmlns='http://www.w3.org/2000/svg'
+      className={className}
+    >
+      <path
+        d='M6.48331 10.0937L11.5756 5.00137C11.6626 4.91326 11.7645 4.86815 11.8813 4.86604C11.998 4.86393 12.1025 4.90904 12.1948 5.00137C12.2871 5.0937 12.3333 5.19626 12.3333 5.30904C12.3333 5.42193 12.2893 5.52237 12.2013 5.61037L6.87181 10.9475C6.76337 11.0569 6.63692 11.1115 6.49248 11.1115C6.34792 11.1115 6.22092 11.0569 6.11148 10.9475L3.81148 8.64754C3.72348 8.55943 3.67737 8.45831 3.67314 8.3442C3.66881 8.2302 3.71281 8.12704 3.80514 8.0347C3.89748 7.94237 4.00053 7.8962 4.11431 7.8962C4.22809 7.8962 4.32931 7.94237 4.41798 8.0347L6.48331 10.0937Z'
+        fill={color}
+      />
+    </svg>
+  );
+};

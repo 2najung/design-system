@@ -1,0 +1,12 @@
+.title1 {
+  @apply text-t9 leading-t9 font-600 tracking-md font-en;
+}
+.title2 {
+  @apply text-t10 leading-t10 font-600 tracking-md font-en;
+}
+.title3 {
+  @apply text-t11 leading-t11 font-600 tracking-md font-en;
+}
+.title4 {
+  @apply text-t12 leading-t12 font-600 tracking-md font-en;
+}

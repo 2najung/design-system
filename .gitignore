@@ -1,0 +1,23 @@
+# dependencies
+node_modules
+
+# build output
+dist
+storybook-static
+
+# env / local
+*.local
+.env
+.env.*
+
+# cache
+.turbo
+.vite
+*.tsbuildinfo
+
+# editor
+.vscode
+.idea
+*.swp
+*.swo
+.DS_Store

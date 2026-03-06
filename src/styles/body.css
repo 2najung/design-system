@@ -1,0 +1,11 @@
+.body1 {
+  @apply text-t3 leading-t3 font-400 tracking-md font-sans;
+}
+
+.body2 {
+  @apply text-t4 leading-t4 font-400 tracking-md font-sans;
+}
+
+.body3 {
+  @apply text-t5 leading-t5 font-400 tracking-md font-sans;
+}

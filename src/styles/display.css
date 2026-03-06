@@ -1,0 +1,15 @@
+.display1 {
+  @apply text-t13 leading-t13 font-600 tracking-lg font-en;
+}
+.display2 {
+  @apply text-t14 leading-t14 font-600 tracking-lg font-en;
+}
+.display3 {
+  @apply text-t15 leading-t15 font-600 tracking-lg font-en;
+}
+.display4 {
+  @apply text-t16 leading-t16 font-600 tracking-lg font-en;
+}
+.display5 {
+  @apply text-t17 leading-t17 font-600 tracking-lg font-en;
+}

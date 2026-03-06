@@ -1,0 +1,11 @@
+.heading1 {
+  @apply text-t6 leading-t6 font-600 tracking-md font-en;
+}
+
+.heading2 {
+  @apply text-t7 leading-t7 font-600 tracking-md font-en;
+}
+
+.heading3 {
+  @apply text-t8 leading-t8 font-600 tracking-md font-en;
+}
