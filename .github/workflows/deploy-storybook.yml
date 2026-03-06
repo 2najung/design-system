@@ -27,7 +27,7 @@ jobs:
           node-version: 20
           cache: npm
 
-      - run: npm ci
+      - run: rm -f package-lock.json && npm install
 
       - run: npm run storybook:build
 
