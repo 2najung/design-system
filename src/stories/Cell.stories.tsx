@@ -113,3 +113,24 @@ export const Overview: Story = {
     </div>
   ),
 };
+
+export const WithIcons: Story = {
+  parameters: { layout: 'centered', controls: { disable: true } },
+  render: () => (
+    <div style={{ width: 300, display: 'flex', flexDirection: 'column', gap: 4 }}>
+      <Cell text='홈' description='메인 페이지로 이동' leadingContent={() => <IconHomeOutline16 />} />
+      <Cell text='검색' description='앱 검색' leadingContent={() => <IconSearchOutline16 />} active />
+    </div>
+  ),
+};
+
+export const WithAvatar: Story = {
+  parameters: { layout: 'centered', controls: { disable: true } },
+  render: () => (
+    <div style={{ width: 300, display: 'flex', flexDirection: 'column', gap: 4 }}>
+      <Cell text='John Doe' description='john@example.com' leadingContent={() => <Avatar type='initial' size='small' value='JD' />} />
+      <Cell text='Jane Smith' description='Designer' leadingContent={() => <Avatar type='initial' size='small' value='JS' />} active />
+      <Cell text='Bob Lee' description='Developer' leadingContent={() => <Avatar type='initial' size='small' value='BL' />} disable />
+    </div>
+  ),
+};

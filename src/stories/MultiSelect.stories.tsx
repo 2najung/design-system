@@ -1,41 +1,20 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { MultiSelect } from '../components/MultiSelect';
-import type { MultiSelectProps } from '../components/MultiSelect/types';
 
 const meta = {
   title: 'Components/Inputs/MultiSelect',
   component: MultiSelect,
   tags: ['autodocs'],
   parameters: {
-    layout: 'padded',
+    layout: 'fullscreen',
     docs: {
       description: {
         component:
-          'MultiSelect는 드롭다운에서 여러 옵션을 선택하고 Chip 형태로 표시하는 컴포넌트입니다. 입력을 통해 옵션을 검색할 수 있으며, 선택된 항목은 Chip으로 표시되고 X 버튼으로 제거할 수 있습니다.',
+          'MultiSelect는 드롭다운에서 여러 옵션을 선택하고 Chip 형태로 표시하는 컴포넌트입니다. 검색 필터링과 single/multi 라인 모드를 지원합니다.',
       },
-    },
-  },
-  argTypes: {
-    size: {
-      control: { type: 'select' },
-      options: ['small', 'medium', 'large'],
-      description: '컴포넌트 크기',
-    },
-    disabled: {
-      control: { type: 'boolean' },
-      description: '비활성화 상태',
-    },
-    placeholder: {
-      control: { type: 'text' },
-      description: '플레이스홀더 텍스트',
-    },
-    lang: {
-      control: { type: 'select' },
-      options: ['ko', 'en'],
-      description: '언어 설정',
     },
   },
 } satisfies Meta<typeof MultiSelect>;
@@ -59,18 +38,24 @@ const sampleOptions = [
   { value: 'lit', label: 'Lit' },
   { value: 'alpine', label: 'Alpine.js' },
   { value: 'ember', label: 'Ember' },
-  { value: 'backbone', label: 'Backbone' },
-  { value: 'meteor', label: 'Meteor' },
-  { value: 'aurelia', label: 'Aurelia' },
-  { value: 'mithril', label: 'Mithril' },
-  { value: 'riot', label: 'Riot' },
 ];
 
-export const Default: Story = {
+const s = {
+  page: { padding: '40px', maxWidth: 960, margin: '0 auto', fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif" } as React.CSSProperties,
+  header: { marginBottom: 48 } as React.CSSProperties,
+  title: { fontSize: 28, fontWeight: 700, color: '#171719', margin: '0 0 8px', letterSpacing: -0.5 } as React.CSSProperties,
+  desc: { fontSize: 15, color: '#7b7e85', margin: 0, lineHeight: 1.5 } as React.CSSProperties,
+  sectionTitle: { fontSize: 13, fontWeight: 600, textTransform: 'uppercase' as const, letterSpacing: 1, color: '#8f9298', margin: '0 0 16px' } as React.CSSProperties,
+  card: { border: '1px solid #e6e7e9', borderRadius: 12, padding: '24px', marginBottom: 16 } as React.CSSProperties,
+  label: { fontSize: 11, color: '#8f9298', fontFamily: "'SF Mono', monospace" } as React.CSSProperties,
+};
+
+export const Playground: Story = {
+  parameters: { layout: 'centered' },
   render: (args) => {
     const [value, setValue] = useState<string[]>([]);
     return (
-      <div style={{ width: '400px' }}>
+      <div style={{ width: 400 }}>
         <MultiSelect {...args} value={value} onChange={setValue} options={sampleOptions} />
       </div>
     );
@@ -79,237 +64,90 @@ export const Default: Story = {
     size: 'medium',
     disabled: false,
     placeholder: '프레임워크를 선택해주세요',
-    lang: 'ko',
+  },
+  argTypes: {
+    size: { control: 'select', options: ['small', 'medium', 'large'] },
+    disabled: { control: 'boolean' },
   },
 };
 
-export const WithInitialValues: Story = {
-  render: (args) => {
-    const [value, setValue] = useState<string[]>(['react', 'nextjs']);
-    return (
-      <div style={{ width: '400px' }}>
-        <MultiSelect {...args} value={value} onChange={setValue} options={sampleOptions} />
+export const Overview: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <div style={s.page}>
+      <div style={s.header}>
+        <h1 style={s.title}>MultiSelect</h1>
+        <p style={s.desc}>
+          드롭다운에서 여러 옵션을 선택하고 Chip으로 표시합니다.
+          <br />
+          3가지 크기, 검색 필터링, single/multi 라인 모드를 지원합니다.
+        </p>
       </div>
-    );
-  },
-  args: {
-    size: 'medium',
-    disabled: false,
-    placeholder: '프레임워크를 선택해주세요',
-    lang: 'ko',
-  },
-};
 
-export const Small: Story = {
-  render: (args) => {
-    const [value, setValue] = useState<string[]>(['vue', 'angular']);
-    return (
-      <div style={{ width: '400px' }}>
-        <MultiSelect {...args} value={value} onChange={setValue} options={sampleOptions} />
+      <p style={s.sectionTitle}>Sizes</p>
+      <div style={s.card}>
+        <SizesDemo />
       </div>
-    );
-  },
-  args: {
-    size: 'small',
-    disabled: false,
-    placeholder: '프레임워크를 선택해주세요',
-    lang: 'ko',
-  },
-};
 
-export const Large: Story = {
-  render: (args) => {
-    const [value, setValue] = useState<string[]>(['react', 'vue', 'angular']);
-    return (
-      <div style={{ width: '400px' }}>
-        <MultiSelect {...args} value={value} onChange={setValue} options={sampleOptions} />
+      <p style={s.sectionTitle}>Line Modes</p>
+      <div style={s.card}>
+        <LineModesDemo />
       </div>
-    );
-  },
-  args: {
-    size: 'large',
-    disabled: false,
-    placeholder: '프레임워크를 선택해주세요',
-    lang: 'ko',
-  },
+    </div>
+  ),
 };
 
-export const Disabled: Story = {
-  render: (args) => {
-    const [value, setValue] = useState<string[]>(['react', 'nextjs']);
-    return (
-      <div style={{ width: '400px' }}>
-        <MultiSelect {...args} value={value} onChange={setValue} options={sampleOptions} />
-      </div>
-    );
-  },
-  args: {
-    size: 'medium',
-    disabled: true,
-    placeholder: '프레임워크를 선택해주세요',
-    lang: 'ko',
-  },
-};
+const SizesDemo = () => {
+  const [small, setSmall] = useState<string[]>(['react']);
+  const [medium, setMedium] = useState<string[]>(['react', 'vue']);
+  const [large, setLarge] = useState<string[]>(['react', 'vue', 'angular']);
 
-export const AllSizes: Story = {
-  parameters: {
-    controls: { disable: true },
-  },
-  render: () => {
-    const [smallValue, setSmallValue] = useState<string[]>(['react']);
-    const [mediumValue, setMediumValue] = useState<string[]>(['react', 'vue']);
-    const [largeValue, setLargeValue] = useState<string[]>(['react', 'vue', 'angular']);
-
-    return (
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '40px',
-          width: '500px',
-        }}
-      >
-        <div>
-          <h3 style={{ fontSize: '16px', fontWeight: '600', marginBottom: '12px' }}>Small</h3>
-          <MultiSelect
-            size='small'
-            value={smallValue}
-            onChange={setSmallValue}
-            options={sampleOptions}
-            placeholder='선택해주세요'
-          />
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+      {([
+        { size: 'small' as const, value: small, onChange: setSmall },
+        { size: 'medium' as const, value: medium, onChange: setMedium },
+        { size: 'large' as const, value: large, onChange: setLarge },
+      ]).map((item) => (
+        <div key={item.size} style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+          <span style={{ ...s.label, width: 60 }}>{item.size}</span>
+          <div style={{ width: 400 }}>
+            <MultiSelect size={item.size} value={item.value} onChange={item.onChange} options={sampleOptions} placeholder='선택해주세요' />
+          </div>
         </div>
+      ))}
+    </div>
+  );
+};
 
-        <div>
-          <h3 style={{ fontSize: '16px', fontWeight: '600', marginBottom: '12px' }}>Medium</h3>
-          <MultiSelect
-            size='medium'
-            value={mediumValue}
-            onChange={setMediumValue}
-            options={sampleOptions}
-            placeholder='선택해주세요'
-          />
-        </div>
+const LineModesDemo = () => {
+  const [singleLine, setSingleLine] = useState<string[]>(['react', 'vue', 'angular', 'svelte', 'nextjs', 'nuxt', 'gatsby', 'remix']);
+  const [multiLine, setMultiLine] = useState<string[]>(['react', 'vue', 'angular', 'svelte', 'nextjs', 'nuxt', 'gatsby', 'remix', 'solid', 'qwik']);
 
-        <div>
-          <h3 style={{ fontSize: '16px', fontWeight: '600', marginBottom: '12px' }}>Large</h3>
-          <MultiSelect
-            size='large'
-            value={largeValue}
-            onChange={setLargeValue}
-            options={sampleOptions}
-            placeholder='선택해주세요'
-          />
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        <span style={s.label}>single (한 줄, 가로 스크롤)</span>
+        <div style={{ width: 400 }}>
+          <MultiSelect size='medium' value={singleLine} onChange={setSingleLine} options={sampleOptions} lineMode='single' />
         </div>
       </div>
-    );
-  },
-};
-
-export const ManySelections: Story = {
-  render: (args) => {
-    const [value, setValue] = useState<string[]>([
-      'react',
-      'vue',
-      'angular',
-      'svelte',
-      'nextjs',
-      'nuxt',
-      'gatsby',
-      'remix',
-      'solid',
-      'qwik',
-    ]);
-    return (
-      <div style={{ width: '500px' }}>
-        <MultiSelect {...args} value={value} onChange={setValue} options={sampleOptions} />
-      </div>
-    );
-  },
-  args: {
-    size: 'medium',
-    disabled: false,
-    placeholder: '프레임워크를 선택해주세요',
-    lang: 'ko',
-  },
-};
-
-export const LineModeComparison: Story = {
-  parameters: {
-    controls: { disable: true },
-  },
-  render: () => {
-    const [singleLine, setSingleLine] = useState<string[]>([
-      'react',
-      'vue',
-      'angular',
-      'svelte',
-      'nextjs',
-      'nuxt',
-      'gatsby',
-      'remix',
-    ]);
-    const [multiLine, setMultiLine] = useState<string[]>([
-      'react',
-      'vue',
-      'angular',
-      'svelte',
-      'nextjs',
-      'nuxt',
-      'gatsby',
-      'remix',
-      'solid',
-      'qwik',
-      'astro',
-      'preact',
-      'lit',
-      'alpine',
-      'ember',
-    ]);
-
-    return (
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '40px',
-          width: '500px',
-        }}
-      >
-        <div>
-          <h3 style={{ fontSize: '16px', fontWeight: '600', marginBottom: '12px' }}>
-            lineMode = "single" (한 줄 고정, 가로 스크롤)
-          </h3>
-          <MultiSelect
-            size='medium'
-            value={singleLine}
-            onChange={setSingleLine}
-            options={sampleOptions}
-            placeholder='선택해주세요'
-            lineMode='single'
-          />
-          <p style={{ fontSize: '12px', color: '#666', marginTop: '8px' }}>
-            한 줄로만 표시되고 가로 스크롤이 생깁니다
-          </p>
-        </div>
-
-        <div>
-          <h3 style={{ fontSize: '16px', fontWeight: '600', marginBottom: '12px' }}>
-            lineMode = "multi" (최대 3줄까지, 이후 세로 스크롤)
-          </h3>
-          <MultiSelect
-            size='medium'
-            value={multiLine}
-            onChange={setMultiLine}
-            options={sampleOptions}
-            placeholder='선택해주세요'
-            lineMode='multi'
-          />
-          <p style={{ fontSize: '12px', color: '#666', marginTop: '8px' }}>
-            최대 3줄까지 늘어나고, 이후 세로 스크롤이 생깁니다
-          </p>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        <span style={s.label}>multi (최대 3줄, 세로 스크롤)</span>
+        <div style={{ width: 400 }}>
+          <MultiSelect size='medium' value={multiLine} onChange={setMultiLine} options={sampleOptions} lineMode='multi' />
         </div>
       </div>
-    );
-  },
+    </div>
+  );
+};
+
+export const Sizes: Story = {
+  parameters: { layout: 'centered', controls: { disable: true } },
+  render: () => <SizesDemo />,
+};
+
+export const LineModes: Story = {
+  parameters: { layout: 'centered', controls: { disable: true } },
+  render: () => <LineModesDemo />,
 };

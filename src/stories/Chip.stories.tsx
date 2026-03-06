@@ -62,25 +62,17 @@ export const Overview: Story = {
         </p>
       </div>
 
-      <p style={s.sectionTitle}>Types</p>
+      <p style={s.sectionTitle}>Types × Sizes</p>
       <div style={s.card}>
-        <div style={{ display: 'flex', gap: 24 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
           {(['outline', 'solid'] as const).map((type) => (
-            <div key={type} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
-              <Chip type={type}>텍스트</Chip>
+            <div key={type} style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               <span style={s.label}>{type}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <p style={s.sectionTitle}>Sizes</p>
-      <div style={s.card}>
-        <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
-          {(['x-small', 'small', 'medium', 'large'] as const).map((size) => (
-            <div key={size} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
-              <Chip size={size}>텍스트</Chip>
-              <span style={s.label}>{size}</span>
+              <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+                {(['x-small', 'small', 'medium', 'large'] as const).map((size) => (
+                  <Chip key={size} type={type} size={size}>{size}</Chip>
+                ))}
+              </div>
             </div>
           ))}
         </div>
@@ -116,6 +108,54 @@ export const Overview: Story = {
           ))}
         </div>
       </div>
+    </div>
+  ),
+};
+
+export const Sizes: Story = {
+  parameters: { layout: 'centered', controls: { disable: true } },
+  render: () => (
+    <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
+      {(['x-small', 'small', 'medium', 'large'] as const).map((size) => (
+        <div key={size} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+          <Chip size={size}>텍스트</Chip>
+          <span style={s.label}>{size}</span>
+        </div>
+      ))}
+    </div>
+  ),
+};
+
+export const States: Story = {
+  parameters: { layout: 'centered', controls: { disable: true } },
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+      {(['outline', 'solid'] as const).map((type) => (
+        <div key={type} style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <span style={s.label}>{type}</span>
+          <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+            <Chip type={type}>default</Chip>
+            <Chip type={type} state='hovered'>hovered</Chip>
+            <Chip type={type} state='pressed'>pressed</Chip>
+            <Chip type={type} active>active</Chip>
+            <Chip type={type} disabled>disabled</Chip>
+          </div>
+        </div>
+      ))}
+    </div>
+  ),
+};
+
+export const Radius: Story = {
+  parameters: { layout: 'centered', controls: { disable: true } },
+  render: () => (
+    <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+      {(['rounded-1', 'rounded-2', 'rounded-3', 'rounded-4', 'rounded-full'] as const).map((r) => (
+        <div key={r} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+          <Chip radius={r}>텍스트</Chip>
+          <span style={s.label}>{r}</span>
+        </div>
+      ))}
     </div>
   ),
 };

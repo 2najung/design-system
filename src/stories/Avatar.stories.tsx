@@ -75,18 +75,6 @@ export const Overview: Story = {
         </div>
       </div>
 
-      <p style={s.sectionTitle}>Sizes</p>
-      <div style={s.card}>
-        <div style={{ display: 'flex', gap: 32, alignItems: 'flex-end' }}>
-          {(['x-small', 'small', 'medium', 'large'] as const).map((size) => (
-            <div key={size} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
-              <Avatar type='initial' size={size} value='A' />
-              <span style={s.label}>{size}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
       <p style={s.sectionTitle}>Sizes by Type</p>
       <div style={s.card}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
@@ -101,6 +89,40 @@ export const Overview: Story = {
             </div>
           ))}
         </div>
+      </div>
+    </div>
+  ),
+};
+
+export const Sizes: Story = {
+  parameters: { layout: 'centered', controls: { disable: true } },
+  render: () => (
+    <div style={{ display: 'flex', gap: 24, alignItems: 'flex-end' }}>
+      {(['x-small', 'small', 'medium', 'large'] as const).map((size) => (
+        <div key={size} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+          <Avatar type='initial' size={size} value='A' />
+          <span style={s.label}>{size}</span>
+        </div>
+      ))}
+    </div>
+  ),
+};
+
+export const Types: Story = {
+  parameters: { layout: 'centered', controls: { disable: true } },
+  render: () => (
+    <div style={{ display: 'flex', gap: 32, alignItems: 'center' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+        <Avatar type='default' size='large' />
+        <span style={s.label}>default</span>
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+        <Avatar type='initial' size='large' value='J' />
+        <span style={s.label}>initial</span>
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+        <Avatar type='custom' size='large' />
+        <span style={s.label}>custom</span>
       </div>
     </div>
   ),

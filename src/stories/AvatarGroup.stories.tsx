@@ -113,3 +113,31 @@ export const Overview: Story = {
     </div>
   ),
 };
+
+export const States: Story = {
+  parameters: { layout: 'centered', controls: { disable: true } },
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+      {(['default', 'hovered', 'pressed', 'selected'] as const).map((state) => (
+        <div key={state} style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+          <span style={{ ...s.label, width: 60 }}>{state}</span>
+          <AvatarGroup avatars={defaultAvatars} state={state} />
+        </div>
+      ))}
+    </div>
+  ),
+};
+
+export const MaxLimit: Story = {
+  parameters: { layout: 'centered', controls: { disable: true } },
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+      {[2, 3, 4].map((max) => (
+        <div key={max} style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+          <span style={{ ...s.label, width: 100 }}>max={max} (6개)</span>
+          <AvatarGroup avatars={initialAvatars} max={max} />
+        </div>
+      ))}
+    </div>
+  ),
+};

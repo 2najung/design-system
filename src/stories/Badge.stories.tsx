@@ -94,3 +94,37 @@ export const Overview: Story = {
     </div>
   ),
 };
+
+export const Sizes: Story = {
+  parameters: { layout: 'centered', controls: { disable: true } },
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+      {(['small', 'medium', 'large'] as const).map((size) => (
+        <div key={size} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <span style={{ ...s.label, width: 60 }}>{size}</span>
+          <Badge variant='primary' type='outline' size={size}>Outline</Badge>
+          <Badge variant='primary' type='solid' size={size}>Solid</Badge>
+          <Badge variant='primary' type='strong' size={size}>Strong</Badge>
+        </div>
+      ))}
+    </div>
+  ),
+};
+
+export const AllVariants: Story = {
+  parameters: { layout: 'centered', controls: { disable: true } },
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+      {types.map((type) => (
+        <div key={type} style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <span style={s.label}>{type}</span>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            {variants.map((variant) => (
+              <Badge key={variant} variant={variant} type={type}>{variant}</Badge>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  ),
+};

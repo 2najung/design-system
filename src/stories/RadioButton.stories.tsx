@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -27,27 +27,12 @@ const meta: Meta<typeof RadioButton> = {
   component: RadioButton,
   tags: ['autodocs'],
   parameters: {
-    layout: 'centered',
+    layout: 'fullscreen',
     docs: {
       description: {
         component:
-          'Radio Button은 사용자가 여러 선택지 중 하나만 선택할 수 있도록 제한하는 기본 UI 컴포넌트로, 단일 선택이 필요한 상황에서 주로 사용됩니다.',
+          'Radio Button은 사용자가 여러 선택지 중 하나만 선택할 수 있도록 제한하는 기본 UI 컴포넌트입니다.',
       },
-    },
-  },
-  argTypes: {
-    state: {
-      control: 'select',
-      options: ['checked', 'unchecked'],
-      description: '라디오 버튼의 상태를 선택합니다.',
-    },
-    disabled: {
-      control: 'boolean',
-      description: '라디오 버튼의 비활성화 여부를 설정합니다.',
-    },
-    onChange: {
-      action: 'changed',
-      description: '라디오 버튼 상태가 변경될 때 호출되는 콜백 함수입니다.',
     },
   },
 };
@@ -55,136 +40,85 @@ const meta: Meta<typeof RadioButton> = {
 export default meta;
 type Story = StoryObj<typeof RadioButton>;
 
-export const Default: Story = {
-  render: (args) => <RadioButtonWithState {...args} />,
-  args: {
-    state: 'unchecked',
-    disabled: false,
-  },
+const s = {
+  page: { padding: '40px', maxWidth: 960, margin: '0 auto', fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif" } as React.CSSProperties,
+  header: { marginBottom: 48 } as React.CSSProperties,
+  title: { fontSize: 28, fontWeight: 700, color: '#171719', margin: '0 0 8px', letterSpacing: -0.5 } as React.CSSProperties,
+  desc: { fontSize: 15, color: '#7b7e85', margin: 0, lineHeight: 1.5 } as React.CSSProperties,
+  sectionTitle: { fontSize: 13, fontWeight: 600, textTransform: 'uppercase' as const, letterSpacing: 1, color: '#8f9298', margin: '0 0 16px' } as React.CSSProperties,
+  card: { border: '1px solid #e6e7e9', borderRadius: 12, padding: '24px', marginBottom: 16 } as React.CSSProperties,
+  label: { fontSize: 11, color: '#8f9298', fontFamily: "'SF Mono', monospace" } as React.CSSProperties,
 };
 
-export const AllStates: Story = {
-  parameters: {
-    controls: { disable: true },
-  },
-  render: () => (
-    <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '8px',
-          alignItems: 'center',
-        }}
-      >
-        <span style={{ fontSize: '12px', color: '#666' }}>Checked</span>
-        <RadioButton state='checked' />
-      </div>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '8px',
-          alignItems: 'center',
-        }}
-      >
-        <span style={{ fontSize: '12px', color: '#666' }}>Unchecked</span>
-        <RadioButton state='unchecked' />
-      </div>
-    </div>
-  ),
-};
-
-export const AllCombinations: Story = {
-  parameters: {
-    controls: { disable: true },
-  },
-  render: () => (
-    <div
-      style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(2, 1fr)',
-        gap: '32px',
-      }}
-    >
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '16px',
-          alignItems: 'center',
-        }}
-      >
-        <span style={{ fontSize: '16px', fontWeight: '600' }}>Normal States</span>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '12px',
-            alignItems: 'center',
-          }}
-        >
-          <span style={{ fontSize: '12px', color: '#666' }}>Checked</span>
-          <RadioButton state='checked' />
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '12px',
-            alignItems: 'center',
-          }}
-        >
-          <span style={{ fontSize: '12px', color: '#666' }}>Unchecked</span>
-          <RadioButton state='unchecked' />
-        </div>
-      </div>
-
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '16px',
-          alignItems: 'center',
-        }}
-      >
-        <span style={{ fontSize: '16px', fontWeight: '600' }}>Disabled States</span>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '12px',
-            alignItems: 'center',
-          }}
-        >
-          <span style={{ fontSize: '12px', color: '#666' }}>Checked</span>
-          <RadioButton state='checked' disabled={true} />
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '12px',
-            alignItems: 'center',
-          }}
-        >
-          <span style={{ fontSize: '12px', color: '#666' }}>Unchecked</span>
-          <RadioButton state='unchecked' disabled={true} />
-        </div>
-      </div>
-    </div>
-  ),
-};
-
-export const Interactive: Story = {
+export const Playground: Story = {
+  parameters: { layout: 'centered' },
   render: (args) => <RadioButtonWithState {...args} />,
   args: {
     state: 'unchecked',
     disabled: false,
   },
   argTypes: {
-    state: {
-      control: false,
-    },
+    state: { control: 'select', options: ['checked', 'unchecked'] },
+    disabled: { control: 'boolean' },
   },
+};
+
+export const Overview: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <div style={s.page}>
+      <div style={s.header}>
+        <h1 style={s.title}>Radio Button</h1>
+        <p style={s.desc}>
+          여러 선택지 중 하나만 선택할 수 있는 라디오 버튼입니다.
+          <br />
+          checked/unchecked 상태와 disabled 상태를 지원합니다.
+        </p>
+      </div>
+
+      <p style={s.sectionTitle}>States</p>
+      <div style={s.card}>
+        <div style={{ display: 'flex', gap: 24, alignItems: 'center' }}>
+          {([
+            { state: 'checked' as const, disabled: false, label: 'checked' },
+            { state: 'unchecked' as const, disabled: false, label: 'unchecked' },
+            { state: 'checked' as const, disabled: true, label: 'disabled checked' },
+            { state: 'unchecked' as const, disabled: true, label: 'disabled unchecked' },
+          ]).map((item) => (
+            <div key={item.label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+              <RadioButton state={item.state} disabled={item.disabled} />
+              <span style={s.label}>{item.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <p style={s.sectionTitle}>Interactive</p>
+      <div style={s.card}>
+        <div style={{ display: 'flex', gap: 24, alignItems: 'center' }}>
+          <RadioButtonWithState state='unchecked' />
+          <RadioButtonWithState state='checked' />
+        </div>
+      </div>
+    </div>
+  ),
+};
+
+export const States: Story = {
+  parameters: { layout: 'centered', controls: { disable: true } },
+  render: () => (
+    <div style={{ display: 'flex', gap: 24, alignItems: 'center' }}>
+      {([
+        { state: 'checked' as const, disabled: false, label: 'checked' },
+        { state: 'unchecked' as const, disabled: false, label: 'unchecked' },
+        { state: 'checked' as const, disabled: true, label: 'disabled checked' },
+        { state: 'unchecked' as const, disabled: true, label: 'disabled unchecked' },
+      ]).map((item) => (
+        <div key={item.label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+          <RadioButton state={item.state} disabled={item.disabled} />
+          <span style={s.label}>{item.label}</span>
+        </div>
+      ))}
+    </div>
+  ),
 };

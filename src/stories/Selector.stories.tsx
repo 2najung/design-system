@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -8,7 +8,7 @@ import type { SelectorOption, SelectorProps } from '../components/Selector/types
 const SelectorWithState = (props: SelectorProps) => {
   const [value, setValue] = useState(props.value || '');
   return (
-    <div style={{ width: '200px' }}>
+    <div style={{ width: 240 }}>
       <Selector {...props} value={value} onChange={(newValue) => setValue(newValue)} />
     </div>
   );
@@ -20,226 +20,130 @@ const sampleOptions: SelectorOption[] = [
   { value: 'option3', label: '옵션 3' },
   { value: 'option4', label: '옵션 4' },
   { value: 'option5', label: '옵션 5' },
-  { value: 'option6', label: '옵션 6' },
-  { value: 'option7', label: '옵션 7' },
-  { value: 'option8', label: '옵션 8' },
-  { value: 'option9', label: '옵션 9' },
-  { value: 'option10', label: '옵션 10' },
 ];
 
 const meta: Meta<typeof Selector> = {
   title: 'Components/Inputs/Selector',
   component: Selector,
-  parameters: {
-    layout: 'centered',
-  },
   tags: ['autodocs'],
-  argTypes: {
-    size: {
-      control: { type: 'select' },
-      options: ['small', 'medium', 'large'],
-    },
-    disabled: {
-      control: { type: 'boolean' },
-    },
-    active: {
-      control: { type: 'boolean' },
-    },
-    focused: {
-      control: { type: 'boolean' },
-    },
-    placeholder: {
-      control: { type: 'text' },
-    },
-    value: {
-      control: { type: 'text' },
-    },
-    lang: {
-      control: { type: 'select' },
-      options: ['ko', 'en'],
+  parameters: {
+    layout: 'fullscreen',
+    docs: {
+      description: {
+        component:
+          '드롭다운 셀렉터 컴포넌트입니다. 3가지 크기와 다양한 상태를 지원합니다.',
+      },
     },
   },
   args: {
     size: 'medium',
     disabled: false,
-    active: false,
-    focused: false,
     placeholder: '선택해주세요.',
     options: sampleOptions,
-    lang: 'ko',
   },
 };
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// 기본 스토리
-export const Default: Story = {
-  render: (args) => <SelectorWithState {...args} />,
+const s = {
+  page: { padding: '40px', maxWidth: 960, margin: '0 auto', fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif" } as React.CSSProperties,
+  header: { marginBottom: 48 } as React.CSSProperties,
+  title: { fontSize: 28, fontWeight: 700, color: '#171719', margin: '0 0 8px', letterSpacing: -0.5 } as React.CSSProperties,
+  desc: { fontSize: 15, color: '#7b7e85', margin: 0, lineHeight: 1.5 } as React.CSSProperties,
+  sectionTitle: { fontSize: 13, fontWeight: 600, textTransform: 'uppercase' as const, letterSpacing: 1, color: '#8f9298', margin: '0 0 16px' } as React.CSSProperties,
+  card: { border: '1px solid #e6e7e9', borderRadius: 12, padding: '24px', marginBottom: 16 } as React.CSSProperties,
+  label: { fontSize: 11, color: '#8f9298', fontFamily: "'SF Mono', monospace" } as React.CSSProperties,
 };
 
-// Size 변형들
-export const Small: Story = {
-  args: {
-    size: 'small',
+export const Playground: Story = {
+  parameters: { layout: 'centered' },
+  render: (args) => <SelectorWithState {...args} />,
+  argTypes: {
+    size: { control: 'select', options: ['small', 'medium', 'large'] },
+    disabled: { control: 'boolean' },
   },
-  render: (args) => <SelectorWithState {...args} />,
 };
 
-export const Medium: Story = {
-  args: {
-    size: 'medium',
-  },
-  render: (args) => <SelectorWithState {...args} />,
-};
-
-export const Large: Story = {
-  args: {
-    size: 'large',
-  },
-  render: (args) => <SelectorWithState {...args} />,
-};
-
-// 상태별 스토리
-export const Disabled: Story = {
-  args: {
-    disabled: true,
-  },
-  render: (args) => <SelectorWithState {...args} />,
-};
-
-export const Active: Story = {
-  args: {
-    active: true,
-  },
-  render: (args) => <SelectorWithState {...args} />,
-};
-
-export const Focused: Story = {
-  args: {
-    focused: true,
-  },
-  render: (args) => <SelectorWithState {...args} />,
-};
-
-export const WithSelectedValue: Story = {
-  args: {
-    value: 'option2',
-  },
-  render: (args) => <SelectorWithState {...args} />,
-};
-
-// 언어별 스토리
-export const Korean: Story = {
-  args: {
-    lang: 'ko',
-    placeholder: '옵션을 선택해주세요.',
-  },
-  render: (args) => <SelectorWithState {...args} />,
-};
-
-export const English: Story = {
-  args: {
-    lang: 'en',
-    placeholder: 'Please select an option.',
-    options: [
-      { value: 'option1', label: 'Option 1' },
-      { value: 'option2', label: 'Option 2' },
-      { value: 'option3', label: 'Option 3' },
-      { value: 'option4', label: 'Option 4' },
-      { value: 'option5', label: 'Option 5' },
-    ],
-  },
-  render: (args) => <SelectorWithState {...args} />,
-};
-
-// 다양한 크기를 한번에 보는 스토리
-export const AllSizes: Story = {
+export const Overview: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '20px',
-        width: '300px',
-      }}
-    >
-      <div>
-        <h4 style={{ marginBottom: '8px', fontSize: '14px', fontWeight: '600' }}>Small</h4>
-        <SelectorWithState size='small' options={sampleOptions} />
+    <div style={s.page}>
+      <div style={s.header}>
+        <h1 style={s.title}>Selector</h1>
+        <p style={s.desc}>
+          드롭다운 셀렉터 컴포넌트입니다.
+          <br />
+          3가지 크기와 다양한 상태를 지원합니다.
+        </p>
       </div>
-      <div>
-        <h4 style={{ marginBottom: '8px', fontSize: '14px', fontWeight: '600' }}>Medium</h4>
-        <SelectorWithState size='medium' options={sampleOptions} />
+
+      <p style={s.sectionTitle}>Sizes</p>
+      <div style={s.card}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+          {(['small', 'medium', 'large'] as const).map((size) => (
+            <div key={size} style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+              <span style={{ ...s.label, width: 60 }}>{size}</span>
+              <SelectorWithState size={size} options={sampleOptions} />
+            </div>
+          ))}
+        </div>
       </div>
-      <div>
-        <h4 style={{ marginBottom: '8px', fontSize: '14px', fontWeight: '600' }}>Large</h4>
-        <SelectorWithState size='large' options={sampleOptions} />
+
+      <p style={s.sectionTitle}>States</p>
+      <div style={s.card}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+            <span style={{ ...s.label, width: 80 }}>default</span>
+            <SelectorWithState options={sampleOptions} />
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+            <span style={{ ...s.label, width: 80 }}>with value</span>
+            <div style={{ width: 240 }}>
+              <Selector value='option2' options={sampleOptions} />
+            </div>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+            <span style={{ ...s.label, width: 80 }}>disabled</span>
+            <div style={{ width: 240 }}>
+              <Selector disabled options={sampleOptions} />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   ),
 };
 
-// 다양한 상태를 한번에 보는 스토리
-export const AllStates: Story = {
+export const Sizes: Story = {
+  parameters: { layout: 'centered', controls: { disable: true } },
   render: () => (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '20px',
-        width: '300px',
-      }}
-    >
-      <div>
-        <h4 style={{ marginBottom: '8px', fontSize: '14px', fontWeight: '600' }}>Default</h4>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+      {(['small', 'medium', 'large'] as const).map((size) => (
+        <div key={size} style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+          <span style={{ ...s.label, width: 60 }}>{size}</span>
+          <SelectorWithState size={size} options={sampleOptions} />
+        </div>
+      ))}
+    </div>
+  ),
+};
+
+export const States: Story = {
+  parameters: { layout: 'centered', controls: { disable: true } },
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16, width: 240 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        <span style={s.label}>default</span>
         <SelectorWithState options={sampleOptions} />
       </div>
-      <div>
-        <h4 style={{ marginBottom: '8px', fontSize: '14px', fontWeight: '600' }}>Active</h4>
-        <Selector active options={sampleOptions} />
-      </div>
-      <div>
-        <h4 style={{ marginBottom: '8px', fontSize: '14px', fontWeight: '600' }}>Focused</h4>
-        <Selector focused options={sampleOptions} />
-      </div>
-      <div>
-        <h4 style={{ marginBottom: '8px', fontSize: '14px', fontWeight: '600' }}>Disabled</h4>
-        <Selector disabled options={sampleOptions} />
-      </div>
-      <div>
-        <h4 style={{ marginBottom: '8px', fontSize: '14px', fontWeight: '600' }}>
-          With Selected Value
-        </h4>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        <span style={s.label}>with value</span>
         <Selector value='option3' options={sampleOptions} />
       </div>
-    </div>
-  ),
-};
-
-// Width 커스터마이징 예제 스토리
-export const CustomWidth: Story = {
-  render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-      <div>
-        <h4 style={{ marginBottom: '8px', fontSize: '14px', fontWeight: '600' }}>
-          style prop으로 width 설정
-        </h4>
-        <SelectorWithState style={{ width: '150px' }} options={sampleOptions} />
-      </div>
-      <div>
-        <h4 style={{ marginBottom: '8px', fontSize: '14px', fontWeight: '600' }}>
-          style prop으로 width 설정 (넓게)
-        </h4>
-        <SelectorWithState style={{ width: '400px' }} options={sampleOptions} />
-      </div>
-      <div>
-        <h4 style={{ marginBottom: '8px', fontSize: '14px', fontWeight: '600' }}>
-          부모 컨테이너로 감싸기
-        </h4>
-        <div style={{ width: '250px' }}>
-          <SelectorWithState options={sampleOptions} />
-        </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        <span style={s.label}>disabled</span>
+        <Selector disabled options={sampleOptions} />
       </div>
     </div>
   ),

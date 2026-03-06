@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -8,7 +8,7 @@ import type { ComboBoxOption, ComboBoxProps } from '../components/ComboBox/types
 const ComboBoxWithState = (props: ComboBoxProps) => {
   const [value, setValue] = useState(props.value || '');
   return (
-    <div style={{ width: '300px' }}>
+    <div style={{ width: 300 }}>
       <ComboBox {...props} value={value} onChange={(newValue) => setValue(newValue)} />
     </div>
   );
@@ -30,290 +30,120 @@ const sampleOptions: ComboBoxOption[] = [
 const meta: Meta<typeof ComboBox> = {
   title: 'Components/Inputs/ComboBox',
   component: ComboBox,
-  parameters: {
-    layout: 'centered',
-  },
   tags: ['autodocs'],
-  argTypes: {
-    size: {
-      control: { type: 'select' },
-      options: ['small', 'medium', 'large'],
-    },
-    disabled: {
-      control: { type: 'boolean' },
-    },
-    active: {
-      control: { type: 'boolean' },
-    },
-    focused: {
-      control: { type: 'boolean' },
-    },
-    placeholder: {
-      control: { type: 'text' },
-    },
-    value: {
-      control: { type: 'text' },
-    },
-    lang: {
-      control: { type: 'select' },
-      options: ['ko', 'en'],
+  parameters: {
+    layout: 'fullscreen',
+    docs: {
+      description: {
+        component:
+          '입력과 드롭다운 선택을 결합한 콤보박스 컴포넌트입니다. 3가지 크기와 검색, 직접 입력을 지원합니다.',
+      },
     },
   },
   args: {
     size: 'medium',
     disabled: false,
-    active: false,
-    focused: false,
     placeholder: '입력하거나 선택해주세요.',
     options: sampleOptions,
-    lang: 'ko',
   },
 };
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// 기본 스토리
-export const Default: Story = {
-  render: (args) => <ComboBoxWithState {...args} />,
+const s = {
+  page: { padding: '40px', maxWidth: 960, margin: '0 auto', fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif" } as React.CSSProperties,
+  header: { marginBottom: 48 } as React.CSSProperties,
+  title: { fontSize: 28, fontWeight: 700, color: '#171719', margin: '0 0 8px', letterSpacing: -0.5 } as React.CSSProperties,
+  desc: { fontSize: 15, color: '#7b7e85', margin: 0, lineHeight: 1.5 } as React.CSSProperties,
+  sectionTitle: { fontSize: 13, fontWeight: 600, textTransform: 'uppercase' as const, letterSpacing: 1, color: '#8f9298', margin: '0 0 16px' } as React.CSSProperties,
+  card: { border: '1px solid #e6e7e9', borderRadius: 12, padding: '24px', marginBottom: 16 } as React.CSSProperties,
+  label: { fontSize: 11, color: '#8f9298', fontFamily: "'SF Mono', monospace" } as React.CSSProperties,
 };
 
-// Size 변형들
-export const Small: Story = {
-  args: {
-    size: 'small',
+export const Playground: Story = {
+  parameters: { layout: 'centered' },
+  render: (args) => <ComboBoxWithState {...args} />,
+  argTypes: {
+    size: { control: 'select', options: ['small', 'medium', 'large'] },
+    disabled: { control: 'boolean' },
+    placeholder: { control: 'text' },
   },
-  render: (args) => <ComboBoxWithState {...args} />,
 };
 
-export const Medium: Story = {
-  args: {
-    size: 'medium',
-  },
-  render: (args) => <ComboBoxWithState {...args} />,
-};
-
-export const Large: Story = {
-  args: {
-    size: 'large',
-  },
-  render: (args) => <ComboBoxWithState {...args} />,
-};
-
-// 상태별 스토리
-export const Disabled: Story = {
-  args: {
-    disabled: true,
-    value: '비활성화된 상태',
-  },
-  render: (args) => <ComboBoxWithState {...args} />,
-};
-
-export const Active: Story = {
-  args: {
-    active: true,
-  },
-  render: (args) => <ComboBoxWithState {...args} />,
-};
-
-export const Focused: Story = {
-  args: {
-    focused: true,
-  },
-  render: (args) => <ComboBoxWithState {...args} />,
-};
-
-export const WithInitialValue: Story = {
-  args: {
-    value: '초기값이 있는 상태',
-  },
-  render: (args) => <ComboBoxWithState {...args} />,
-};
-
-// 언어별 스토리
-export const Korean: Story = {
-  args: {
-    lang: 'ko',
-    placeholder: '입력하거나 옵션을 선택해주세요.',
-  },
-  render: (args) => <ComboBoxWithState {...args} />,
-};
-
-export const English: Story = {
-  args: {
-    lang: 'en',
-    placeholder: 'Type or select an option.',
-    options: [
-      { value: 'option1', label: 'Option 1' },
-      { value: 'option2', label: 'Option 2' },
-      { value: 'option3', label: 'Option 3' },
-      { value: 'option4', label: 'Option 4' },
-      { value: 'option5', label: 'Option 5' },
-    ],
-  },
-  render: (args) => <ComboBoxWithState {...args} />,
-};
-
-// 다양한 크기를 한번에 보는 스토리
-export const AllSizes: Story = {
+export const Overview: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '20px',
-        width: '300px',
-      }}
-    >
-      <div>
-        <h4 style={{ marginBottom: '8px', fontSize: '14px', fontWeight: '600' }}>Small</h4>
-        <ComboBoxWithState size='small' options={sampleOptions} />
+    <div style={s.page}>
+      <div style={s.header}>
+        <h1 style={s.title}>ComboBox</h1>
+        <p style={s.desc}>
+          입력과 드롭다운 선택을 결합한 콤보박스 컴포넌트입니다.
+          <br />
+          3가지 크기, 검색 필터링, 직접 입력을 지원합니다.
+        </p>
       </div>
-      <div>
-        <h4 style={{ marginBottom: '8px', fontSize: '14px', fontWeight: '600' }}>Medium</h4>
-        <ComboBoxWithState size='medium' options={sampleOptions} />
-      </div>
-      <div>
-        <h4 style={{ marginBottom: '8px', fontSize: '14px', fontWeight: '600' }}>Large</h4>
-        <ComboBoxWithState size='large' options={sampleOptions} />
-      </div>
-    </div>
-  ),
-};
 
-// 다양한 상태를 한번에 보는 스토리
-export const AllStates: Story = {
-  render: () => (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '20px',
-        width: '300px',
-      }}
-    >
-      <div>
-        <h4 style={{ marginBottom: '8px', fontSize: '14px', fontWeight: '600' }}>Default</h4>
-        <ComboBoxWithState options={sampleOptions} />
+      <p style={s.sectionTitle}>Sizes</p>
+      <div style={s.card}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+          {(['small', 'medium', 'large'] as const).map((size) => (
+            <div key={size} style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+              <span style={{ ...s.label, width: 60 }}>{size}</span>
+              <ComboBoxWithState size={size} options={sampleOptions} />
+            </div>
+          ))}
+        </div>
       </div>
-      <div>
-        <h4 style={{ marginBottom: '8px', fontSize: '14px', fontWeight: '600' }}>Active</h4>
-        <ComboBox active options={sampleOptions} />
-      </div>
-      <div>
-        <h4 style={{ marginBottom: '8px', fontSize: '14px', fontWeight: '600' }}>Focused</h4>
-        <ComboBox focused options={sampleOptions} />
-      </div>
-      <div>
-        <h4 style={{ marginBottom: '8px', fontSize: '14px', fontWeight: '600' }}>Disabled</h4>
-        <ComboBox disabled value='비활성화 상태' options={sampleOptions} />
-      </div>
-      <div>
-        <h4 style={{ marginBottom: '8px', fontSize: '14px', fontWeight: '600' }}>
-          With Initial Value
-        </h4>
-        <ComboBox value='초기값' options={sampleOptions} />
-      </div>
-    </div>
-  ),
-};
 
-// Width 커스터마이징 예제 스토리
-export const CustomWidth: Story = {
-  render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-      <div>
-        <h4 style={{ marginBottom: '8px', fontSize: '14px', fontWeight: '600' }}>
-          style prop으로 width 설정
-        </h4>
-        <ComboBoxWithState style={{ width: '150px' }} options={sampleOptions} />
-      </div>
-      <div>
-        <h4 style={{ marginBottom: '8px', fontSize: '14px', fontWeight: '600' }}>
-          style prop으로 width 설정 (넓게)
-        </h4>
-        <ComboBoxWithState style={{ width: '400px' }} options={sampleOptions} />
-      </div>
-      <div>
-        <h4 style={{ marginBottom: '8px', fontSize: '14px', fontWeight: '600' }}>
-          부모 컨테이너로 감싸기
-        </h4>
-        <div style={{ width: '250px' }}>
-          <ComboBoxWithState options={sampleOptions} />
+      <p style={s.sectionTitle}>States</p>
+      <div style={s.card}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+            <span style={{ ...s.label, width: 60 }}>default</span>
+            <ComboBoxWithState options={sampleOptions} />
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+            <span style={{ ...s.label, width: 60 }}>disabled</span>
+            <div style={{ width: 300 }}>
+              <ComboBox disabled value='비활성화 상태' options={sampleOptions} />
+            </div>
+          </div>
         </div>
       </div>
     </div>
   ),
 };
 
-// 사용법 데모 스토리
-export const UsageDemo: Story = {
+export const Sizes: Story = {
+  parameters: { layout: 'centered', controls: { disable: true } },
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-      <div>
-        <h4 style={{ marginBottom: '8px', fontSize: '14px', fontWeight: '600' }}>검색 기능</h4>
-        <p style={{ marginBottom: '8px', fontSize: '12px', color: '#666' }}>
-          입력하면 일치하는 옵션들만 필터링됩니다. "옵션 2"를 입력해보세요.
-        </p>
-        <ComboBoxWithState
-          placeholder='검색어를 입력해보세요'
-          options={sampleOptions}
-          style={{ width: '300px' }}
-        />
-      </div>
-      <div>
-        <h4 style={{ marginBottom: '8px', fontSize: '14px', fontWeight: '600' }}>직접 입력하기</h4>
-        <p style={{ marginBottom: '8px', fontSize: '12px', color: '#666' }}>
-          옵션에 없는 새로운 값도 입력할 수 있습니다.
-        </p>
-        <ComboBoxWithState
-          placeholder='새로운 값을 입력해보세요'
-          options={sampleOptions}
-          style={{ width: '300px' }}
-        />
-      </div>
-      <div>
-        <h4 style={{ marginBottom: '8px', fontSize: '14px', fontWeight: '600' }}>
-          드롭다운에서 선택하기
-        </h4>
-        <p style={{ marginBottom: '8px', fontSize: '12px', color: '#666' }}>
-          화살표 아이콘을 클릭하면 옵션을 선택할 수 있습니다.
-        </p>
-        <ComboBoxWithState
-          placeholder='아이콘을 클릭해보세요'
-          options={sampleOptions}
-          style={{ width: '300px' }}
-        />
-      </div>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+      {(['small', 'medium', 'large'] as const).map((size) => (
+        <div key={size} style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+          <span style={{ ...s.label, width: 60 }}>{size}</span>
+          <ComboBoxWithState size={size} options={sampleOptions} />
+        </div>
+      ))}
     </div>
   ),
 };
 
-// 검색 기능 데모 스토리
-export const SearchDemo: Story = {
+export const States: Story = {
+  parameters: { layout: 'centered', controls: { disable: true } },
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-      <div>
-        <h4 style={{ marginBottom: '8px', fontSize: '14px', fontWeight: '600' }}>
-          과일 검색해보기
-        </h4>
-        <p style={{ marginBottom: '8px', fontSize: '12px', color: '#666' }}>
-          "사과", "바나나", "딸기" 등을 입력해보세요.
-        </p>
-        <ComboBoxWithState
-          placeholder='과일 이름을 검색해보세요'
-          options={[
-            { value: 'apple', label: '사과' },
-            { value: 'banana', label: '바나나' },
-            { value: 'grape', label: '포도' },
-            { value: 'strawberry', label: '딸기' },
-            { value: 'orange', label: '오렌지' },
-            { value: 'peach', label: '복숭아' },
-            { value: 'watermelon', label: '수박' },
-            { value: 'melon', label: '멜론' },
-          ]}
-          style={{ width: '300px' }}
-        />
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16, width: 300 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        <span style={s.label}>default</span>
+        <ComboBoxWithState options={sampleOptions} />
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        <span style={s.label}>active</span>
+        <ComboBox active options={sampleOptions} />
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        <span style={s.label}>disabled</span>
+        <ComboBox disabled value='비활성화 상태' options={sampleOptions} />
       </div>
     </div>
   ),

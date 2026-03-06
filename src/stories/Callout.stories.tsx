@@ -104,3 +104,44 @@ export const Overview: Story = {
     </div>
   ),
 };
+
+export const Variants: Story = {
+  parameters: { layout: 'centered', controls: { disable: true } },
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 12, width: 480 }}>
+      {variants.map((variant) => (
+        <Callout
+          key={variant}
+          variant={variant}
+          title={variant.charAt(0).toUpperCase() + variant.slice(1)}
+          description='안내 텍스트를 입력해 주세요.'
+          leadingIcon
+        />
+      ))}
+    </div>
+  ),
+};
+
+export const ContentOptions: Story = {
+  parameters: { layout: 'centered', controls: { disable: true } },
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16, width: 480 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+        <span style={s.label}>title + description + icon</span>
+        <Callout variant='info' title='안내 제목' description='안내 텍스트를 입력해 주세요.' leadingIcon />
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+        <span style={s.label}>title only</span>
+        <Callout variant='info' title='안내 제목만 표시합니다.' leadingIcon />
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+        <span style={s.label}>without icon</span>
+        <Callout variant='info' title='안내 제목' description='아이콘 없이 표시합니다.' leadingIcon={false} />
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+        <span style={s.label}>with trailing icon (닫기)</span>
+        <Callout variant='info' title='안내 제목' description='닫기 아이콘을 포함합니다.' leadingIcon trailingIcon />
+      </div>
+    </div>
+  ),
+};
