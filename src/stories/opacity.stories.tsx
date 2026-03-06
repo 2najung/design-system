@@ -1,190 +1,113 @@
+import React from 'react';
+
 import type { Meta, StoryObj } from '@storybook/react';
 
 import opacity from '../tokens/opacity';
 
-// Opacity Swatch 컴포넌트
-const OpacitySwatch = ({ name, value }: { name: string; value: string }) => {
-  return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: '12px',
-      }}
-    >
-      <div
-        style={{
-          width: '120px',
-          height: '120px',
-          backgroundColor: '#6366f1',
-          opacity: value,
-          borderRadius: '8px',
-          border: '1px solid #e5e7eb',
-        }}
-      />
-      <div style={{ textAlign: 'center' }}>
-        <div style={{ fontWeight: 600, fontSize: '14px', marginBottom: '4px' }}>{name}</div>
-        <div style={{ fontSize: '12px', color: '#6b7280' }}>
-          {value} ({parseInt(value) * 100}%)
-        </div>
-      </div>
-    </div>
-  );
-};
-
 const meta = {
   title: 'Foundation/Opacity',
   parameters: {
-    layout: 'padded',
-    docs: {
-      description: {
-        component:
-          'Opacity 시스템은 화면 내 요소의 시각적 명도와 투명도를 조정함으로써, 정보의 중요도와 상태 변화를 정확하게 전달하기 위해 설계되었습니다.\n\n' +
-          '투명도는 사용자 시선의 집중도를 조절하고, 활성·비활성 상태나 배경과의 대비를 통해 시각적 위계와 가독성을 균형 있게 유지합니다. ' +
-          'Opacity는 일정한 비율 단위를 기반으로 정의되며, 각 단계는 콘텐츠 우선순위 따라 일관된 시각적 기준을 제공합니다.',
-      },
-    },
+    layout: 'fullscreen',
   },
 } satisfies Meta;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// 전체 Opacity 스케일
+const s = {
+  page: {
+    padding: '40px',
+    maxWidth: 960,
+    margin: '0 auto',
+    fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+  } as React.CSSProperties,
+  header: {
+    marginBottom: 48,
+  } as React.CSSProperties,
+  title: {
+    fontSize: 28,
+    fontWeight: 700,
+    color: '#171719',
+    margin: '0 0 8px',
+    letterSpacing: -0.5,
+  } as React.CSSProperties,
+  desc: {
+    fontSize: 15,
+    color: '#7b7e85',
+    margin: 0,
+    lineHeight: 1.5,
+  } as React.CSSProperties,
+};
+
 export const AllOpacities: Story = {
+  name: 'Overview',
   render: () => (
-    <div style={{ padding: '24px', backgroundColor: '#f9fafb' }}>
-      <h2 style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '24px' }}>Opacity Tokens</h2>
-      <p style={{ fontSize: '14px', color: '#6b7280', marginBottom: '32px' }}>
-        일반적으로 Opacity 토큰은 예시입니다.
-      </p>
+    <div style={s.page}>
+      <div style={s.header}>
+        <h1 style={s.title}>Opacity</h1>
+        <p style={s.desc}>
+          요소의 투명도를 조정하여 정보의 중요도와 상태 변화를 전달합니다.
+        </p>
+      </div>
 
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))',
-          gap: '24px',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))',
+          gap: 20,
         }}
       >
-        {Object.entries(opacity).map(([key, value]) => (
-          <OpacitySwatch key={key} name={key} value={value} />
-        ))}
-      </div>
-    </div>
-  ),
-};
-
-// 사용 예시
-export const UsageExample: Story = {
-  render: () => (
-    <div style={{ padding: '24px' }}>
-      <h3 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '16px' }}>Usage Example</h3>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-        <div
-          style={{
-            padding: '16px',
-            backgroundColor: '#f3f4f6',
-            borderRadius: '8px',
-          }}
-        >
-          <div
-            style={{
-              display: 'inline-block',
-              padding: '8px 16px',
-              backgroundColor: '#6366f1',
-              color: 'white',
-              borderRadius: '6px',
-              opacity: opacity['opacity-10'],
-            }}
-          >
-            opacity-10 (100% - 완전 불투명)
-          </div>
-        </div>
-
-        <div
-          style={{
-            padding: '16px',
-            backgroundColor: '#f3f4f6',
-            borderRadius: '8px',
-          }}
-        >
-          <div
-            style={{
-              display: 'inline-block',
-              padding: '8px 16px',
-              backgroundColor: '#6366f1',
-              color: 'white',
-              borderRadius: '6px',
-              opacity: opacity['opacity-8'],
-            }}
-          >
-            opacity-8 (80%)
-          </div>
-        </div>
-
-        <div
-          style={{
-            padding: '16px',
-            backgroundColor: '#f3f4f6',
-            borderRadius: '8px',
-          }}
-        >
-          <div
-            style={{
-              display: 'inline-block',
-              padding: '8px 16px',
-              backgroundColor: '#6366f1',
-              color: 'white',
-              borderRadius: '6px',
-              opacity: opacity['opacity-5'],
-            }}
-          >
-            opacity-5 (50%)
-          </div>
-        </div>
-
-        <div
-          style={{
-            padding: '16px',
-            backgroundColor: '#f3f4f6',
-            borderRadius: '8px',
-          }}
-        >
-          <div
-            style={{
-              display: 'inline-block',
-              padding: '8px 16px',
-              backgroundColor: '#6366f1',
-              color: 'white',
-              borderRadius: '6px',
-              opacity: opacity['opacity-3'],
-            }}
-          >
-            opacity-3 (30%)
-          </div>
-        </div>
-
-        <div
-          style={{
-            padding: '16px',
-            backgroundColor: '#f3f4f6',
-            borderRadius: '8px',
-          }}
-        >
-          <div
-            style={{
-              display: 'inline-block',
-              padding: '8px 16px',
-              backgroundColor: '#6366f1',
-              color: 'white',
-              borderRadius: '6px',
-              opacity: opacity['opacity-0'],
-            }}
-          >
-            opacity-0 (0% - 완전 투명)
-          </div>
-        </div>
+        {Object.entries(opacity).map(([key, value]) => {
+          const percent = Math.round(parseFloat(value) * 100);
+          return (
+            <div key={key} style={{ textAlign: 'center' }}>
+              <div
+                style={{
+                  width: '100%',
+                  aspectRatio: '1',
+                  borderRadius: 12,
+                  border: '1px solid #e6e7e9',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginBottom: 10,
+                  position: 'relative',
+                  overflow: 'hidden',
+                  background: `repeating-conic-gradient(#e6e7e9 0% 25%, transparent 0% 50%) 50% / 12px 12px`,
+                }}
+              >
+                <div
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    background: 'linear-gradient(135deg, #2b7fff 0%, #ad46ff 100%)',
+                    opacity: parseFloat(value),
+                  }}
+                />
+                <span
+                  style={{
+                    position: 'relative',
+                    fontSize: 18,
+                    fontWeight: 700,
+                    color: percent > 40 ? '#ffffff' : '#171719',
+                  }}
+                >
+                  {percent}%
+                </span>
+              </div>
+              <div style={{ fontSize: 13, fontWeight: 500, color: '#171719' }}>{key}</div>
+              <div
+                style={{
+                  fontSize: 12,
+                  color: '#8f9298',
+                  fontFamily: "'SF Mono', monospace",
+                }}
+              >
+                {value}
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   ),

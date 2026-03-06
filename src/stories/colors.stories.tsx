@@ -1,65 +1,129 @@
+import React, { useState } from 'react';
+
 import type { Meta, StoryObj } from '@storybook/react';
 
 import color from '../tokens/color';
+import textColor from '../tokens/textColor';
+import brandColor from '../tokens/brandColor';
 
-// Color Swatch 컴포넌트
-const ColorSwatch = ({
-  name,
-  value,
-  textColor = '#ffffff',
-}: {
-  name: string;
-  value: string;
-  textColor?: string;
-}) => {
-  return (
-    <div
-      style={{
-        backgroundColor: value,
-        color: textColor,
-        padding: '16px',
-        borderRadius: '8px',
-        border: '1px solid #e5e7eb',
-        minHeight: '80px',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-      }}
-    >
-      <div style={{ fontWeight: 600, fontSize: '14px' }}>{name}</div>
-      <div style={{ fontSize: '12px', opacity: 0.9 }}>{value}</div>
-    </div>
-  );
+const meta = {
+  title: 'Foundation/Colors',
+  parameters: {
+    layout: 'fullscreen',
+  },
+} satisfies Meta;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+const s = {
+  page: {
+    padding: '40px',
+    maxWidth: 960,
+    margin: '0 auto',
+    fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+  } as React.CSSProperties,
+  header: {
+    marginBottom: 48,
+  } as React.CSSProperties,
+  title: {
+    fontSize: 28,
+    fontWeight: 700,
+    color: '#171719',
+    margin: '0 0 8px',
+    letterSpacing: -0.5,
+  } as React.CSSProperties,
+  desc: {
+    fontSize: 15,
+    color: '#7b7e85',
+    margin: 0,
+    lineHeight: 1.5,
+  } as React.CSSProperties,
+  section: {
+    marginBottom: 40,
+  } as React.CSSProperties,
+  sectionTitle: {
+    fontSize: 13,
+    fontWeight: 600,
+    textTransform: 'uppercase' as const,
+    letterSpacing: 1,
+    color: '#8f9298',
+    margin: '0 0 16px',
+  } as React.CSSProperties,
+  paletteRow: {
+    display: 'flex',
+    borderRadius: 12,
+    overflow: 'hidden',
+    marginBottom: 12,
+  } as React.CSSProperties,
+  paletteName: {
+    fontSize: 14,
+    fontWeight: 600,
+    color: '#171719',
+    marginBottom: 8,
+    textTransform: 'capitalize' as const,
+  } as React.CSSProperties,
 };
 
-// Color Scale 렌더러
-const ColorScale = ({
-  colorName,
+const ColorStrip = ({
+  name,
   colors,
 }: {
-  colorName: string;
+  name: string;
   colors: Record<string, string>;
 }) => {
+  const [hoveredKey, setHoveredKey] = useState<string | null>(null);
+  const entries = Object.entries(colors);
+
   return (
-    <div style={{ marginBottom: '32px' }}>
-      <h3 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '16px' }}>{colorName}</h3>
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))',
-          gap: '12px',
-        }}
-      >
-        {Object.entries(colors).map(([key, value]) => {
-          // 밝은 색상인지 판단 (50-400은 검은 텍스트, 나머지는 흰 텍스트)
-          const isDark = !['50', '100', '200', '25'].includes(key);
+    <div style={s.section}>
+      <div style={s.paletteName}>{name}</div>
+      <div style={s.paletteRow}>
+        {entries.map(([key, value]) => {
+          const isLight = ['25', '50', '100', '200'].includes(key);
+          const isHovered = hoveredKey === key;
           return (
-            <ColorSwatch
+            <div
               key={key}
-              name={`${colorName}-${key}`}
-              value={value}
-              textColor={isDark ? '#ffffff' : '#000000'}
-            />
+              onMouseEnter={() => setHoveredKey(key)}
+              onMouseLeave={() => setHoveredKey(null)}
+              style={{
+                flex: 1,
+                height: isHovered ? 72 : 56,
+                backgroundColor: value,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 2,
+                transition: 'height 0.15s ease',
+                cursor: 'default',
+                position: 'relative',
+              }}
+            >
+              {isHovered && (
+                <>
+                  <span
+                    style={{
+                      fontSize: 11,
+                      fontWeight: 600,
+                      color: isLight ? '#171719' : '#ffffff',
+                    }}
+                  >
+                    {key}
+                  </span>
+                  <span
+                    style={{
+                      fontSize: 10,
+                      color: isLight ? '#525459' : 'rgba(255,255,255,0.75)',
+                      fontFamily: "'SF Mono', 'Fira Code', monospace",
+                    }}
+                  >
+                    {value}
+                  </span>
+                </>
+              )}
+            </div>
           );
         })}
       </div>
@@ -67,102 +131,245 @@ const ColorScale = ({
   );
 };
 
-const meta = {
-  title: 'Foundation/Colors',
-  parameters: {
-    layout: 'padded',
-    docs: {
-      description: {
-        component: '디자인 시스템의 컬러 팔레트입니다. 모든 컬러는 color 토큰에서 관리됩니다.',
-      },
-    },
-  },
-} satisfies Meta;
+const SemanticColorCard = ({
+  label,
+  tokenName,
+  value,
+}: {
+  label: string;
+  tokenName: string;
+  value: string;
+}) => (
+  <div
+    style={{
+      display: 'flex',
+      alignItems: 'center',
+      gap: 12,
+      padding: '10px 0',
+      borderBottom: '1px solid #f0f0f2',
+    }}
+  >
+    <div
+      style={{
+        width: 32,
+        height: 32,
+        borderRadius: 8,
+        backgroundColor: value,
+        border: '1px solid rgba(0,0,0,0.06)',
+        flexShrink: 0,
+      }}
+    />
+    <div style={{ flex: 1 }}>
+      <div style={{ fontSize: 13, fontWeight: 500, color: '#171719' }}>{label}</div>
+      <div
+        style={{
+          fontSize: 12,
+          color: '#8f9298',
+          fontFamily: "'SF Mono', 'Fira Code', monospace",
+        }}
+      >
+        {tokenName}
+      </div>
+    </div>
+    <div
+      style={{
+        fontSize: 12,
+        color: '#8f9298',
+        fontFamily: "'SF Mono', 'Fira Code', monospace",
+      }}
+    >
+      {value}
+    </div>
+  </div>
+);
 
-export default meta;
-type Story = StoryObj<typeof meta>;
-
-// 전체 컬러 팔레트
-export const AllColors: Story = {
+export const Palette: Story = {
   render: () => (
-    <div style={{ padding: '24px', backgroundColor: '#f9fafb' }}>
-      <h2 style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '24px' }}>Color Palette</h2>
-
-      {/* Common */}
-      <div style={{ marginBottom: '32px' }}>
-        <h3 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '16px' }}>Common</h3>
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))',
-            gap: '12px',
-          }}
-        >
-          <ColorSwatch name='common-0' value={color.common['0']} textColor='#ffffff' />
-          <ColorSwatch name='common-100' value={color.common['100']} textColor='#000000' />
-          <ColorSwatch name='common-dimmer' value={color.common.dimmer} textColor='#000000' />
-        </div>
+    <div style={s.page}>
+      <div style={s.header}>
+        <h1 style={s.title}>Color Palette</h1>
+        <p style={s.desc}>
+          14개의 컬러 팔레트와 시맨틱 컬러로 구성된 색상 시스템입니다.
+          <br />
+          각 팔레트는 50~950 단계로 세분화되어 있으며, hover로 상세 값을 확인할 수 있습니다.
+        </p>
       </div>
 
-      {/* Gray */}
-      <ColorScale colorName='gray' colors={color.gray} />
+      <p style={s.sectionTitle}>Neutral</p>
+      <ColorStrip name="Gray" colors={color.gray} />
+      <ColorStrip name="Neutral" colors={color.neutral} />
 
-      {/* Neutral */}
-      <ColorScale colorName='neutral' colors={color.neutral} />
+      <div style={{ height: 24 }} />
+      <p style={s.sectionTitle}>Primary Colors</p>
+      <ColorStrip name="Blue" colors={color.blue} />
+      <ColorStrip name="Purple" colors={color.purple} />
+      <ColorStrip name="Deep Purple" colors={color.deeppurple} />
 
-      {/* Red */}
-      <ColorScale colorName='red' colors={color.red} />
+      <div style={{ height: 24 }} />
+      <p style={s.sectionTitle}>Status Colors</p>
+      <ColorStrip name="Red" colors={color.red} />
+      <ColorStrip name="Orange" colors={color.orange} />
+      <ColorStrip name="Yellow" colors={color.yellow} />
+      <ColorStrip name="Green" colors={color.green} />
 
-      {/* Orange */}
-      <ColorScale colorName='orange' colors={color.orange} />
-
-      {/* Yellow */}
-      <ColorScale colorName='yellow' colors={color.yellow} />
-
-      {/* Lime */}
-      <ColorScale colorName='lime' colors={color.lime} />
-
-      {/* Green */}
-      <ColorScale colorName='green' colors={color.green} />
-
-      {/* Emerald */}
-      <ColorScale colorName='emerald' colors={color.emerald} />
-
-      {/* Teal */}
-      <ColorScale colorName='teal' colors={color.teal} />
-
-      {/* Cyan */}
-      <ColorScale colorName='cyan' colors={color.cyan} />
-
-      {/* Blue */}
-      <ColorScale colorName='blue' colors={color.blue} />
-
-      {/* Purple */}
-      <ColorScale colorName='purple' colors={color.purple} />
-
-      {/* Deep Purple */}
-      <ColorScale colorName='deeppurple' colors={color.deeppurple} />
-
-      {/* Pink */}
-      <ColorScale colorName='pink' colors={color.pink} />
+      <div style={{ height: 24 }} />
+      <p style={s.sectionTitle}>Extended</p>
+      <ColorStrip name="Lime" colors={color.lime} />
+      <ColorStrip name="Emerald" colors={color.emerald} />
+      <ColorStrip name="Teal" colors={color.teal} />
+      <ColorStrip name="Cyan" colors={color.cyan} />
+      <ColorStrip name="Pink" colors={color.pink} />
     </div>
   ),
 };
 
-// Gray Scale만
-export const GrayScale: Story = {
+export const SemanticColors: Story = {
   render: () => (
-    <div style={{ padding: '24px' }}>
-      <ColorScale colorName='gray' colors={color.gray} />
-    </div>
-  ),
-};
+    <div style={s.page}>
+      <div style={s.header}>
+        <h1 style={s.title}>Semantic Colors</h1>
+        <p style={s.desc}>
+          용도에 따라 의미가 부여된 시맨틱 컬러입니다.
+          <br />
+          컴포넌트에서 직접 팔레트 값 대신 시맨틱 컬러를 사용하는 것을 권장합니다.
+        </p>
+      </div>
 
-// 브랜드 컬러
-export const BrandColors: Story = {
-  render: () => (
-    <div style={{ padding: '24px' }}>
-      <ColorScale colorName='deeppurple' colors={color.deeppurple} />
+      <p style={s.sectionTitle}>Text Colors (Light)</p>
+      <div style={{ marginBottom: 32 }}>
+        {Object.entries(textColor.light).map(([key, value]) => (
+          <SemanticColorCard
+            key={key}
+            label={key.replace('fg-neutral-', '')}
+            tokenName={`textColor.light['${key}']`}
+            value={value}
+          />
+        ))}
+      </div>
+
+      <p style={s.sectionTitle}>Text Colors (Dark)</p>
+      <div
+        style={{
+          backgroundColor: '#171719',
+          borderRadius: 12,
+          padding: '4px 20px',
+          marginBottom: 32,
+        }}
+      >
+        {Object.entries(textColor.dark).map(([key, value]) => (
+          <div
+            key={key}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 12,
+              padding: '10px 0',
+              borderBottom: '1px solid #303135',
+            }}
+          >
+            <div
+              style={{
+                width: 32,
+                height: 32,
+                borderRadius: 8,
+                backgroundColor: value,
+                border: '1px solid rgba(255,255,255,0.1)',
+                flexShrink: 0,
+              }}
+            />
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: 13, fontWeight: 500, color: '#e6e7e9' }}>
+                {key.replace('fg-neutral-', '')}
+              </div>
+              <div
+                style={{
+                  fontSize: 12,
+                  color: '#7b7e85',
+                  fontFamily: "'SF Mono', 'Fira Code', monospace",
+                }}
+              >
+                textColor.dark['{key}']
+              </div>
+            </div>
+            <div
+              style={{
+                fontSize: 12,
+                color: '#7b7e85',
+                fontFamily: "'SF Mono', 'Fira Code', monospace",
+              }}
+            >
+              {value}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <p style={s.sectionTitle}>Brand Color (Light)</p>
+      <div style={{ marginBottom: 32 }}>
+        {Object.entries(brandColor.light).map(([key, value]) => (
+          <SemanticColorCard
+            key={key}
+            label={key}
+            tokenName={`brandColor.light['${key}']`}
+            value={value}
+          />
+        ))}
+      </div>
+
+      <p style={s.sectionTitle}>Brand Color (Dark)</p>
+      <div
+        style={{
+          backgroundColor: '#171719',
+          borderRadius: 12,
+          padding: '4px 20px',
+          marginBottom: 32,
+        }}
+      >
+        {Object.entries(brandColor.dark).map(([key, value]) => (
+          <div
+            key={key}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 12,
+              padding: '10px 0',
+              borderBottom: '1px solid #303135',
+            }}
+          >
+            <div
+              style={{
+                width: 32,
+                height: 32,
+                borderRadius: 8,
+                backgroundColor: value,
+                border: '1px solid rgba(255,255,255,0.1)',
+                flexShrink: 0,
+              }}
+            />
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: 13, fontWeight: 500, color: '#e6e7e9' }}>{key}</div>
+              <div
+                style={{
+                  fontSize: 12,
+                  color: '#7b7e85',
+                  fontFamily: "'SF Mono', 'Fira Code', monospace",
+                }}
+              >
+                brandColor.dark['{key}']
+              </div>
+            </div>
+            <div
+              style={{
+                fontSize: 12,
+                color: '#7b7e85',
+                fontFamily: "'SF Mono', 'Fira Code', monospace",
+              }}
+            >
+              {value}
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   ),
 };

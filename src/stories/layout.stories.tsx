@@ -1,3 +1,5 @@
+import React from 'react';
+
 import type { Meta, StoryObj } from '@storybook/react';
 
 import color from '../tokens/color';
@@ -8,240 +10,275 @@ import { spacing } from '../tokens/spacing';
 const meta = {
   title: 'Foundation/Layout',
   parameters: {
-    layout: 'padded',
-    docs: {
-      description: {
-        component: '디자인 시스템의 레이아웃 관련 토큰들을 보여줍니다.',
-      },
-    },
+    layout: 'fullscreen',
   },
 } satisfies Meta;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// Radius 토큰
-export const Radius: Story = {
-  render: () => (
-    <div style={{ padding: '24px' }}>
-      <h2 style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '8px' }}>Radius Tokens</h2>
-      <p style={{ color: '#6b7280', marginBottom: '24px' }}>
-        일반적으로 사용되는 Radius 토큰 예시입니다.
-      </p>
-
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
-        {Object.entries(radius).map(([key, value]) => (
-          <div key={key}>
-            <div
-              style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}
-            >
-              <div style={{ fontWeight: 500 }}>{key}</div>
-              <div style={{ fontSize: '14px', color: '#6b7280' }}>{value}</div>
-            </div>
-            <div
-              style={{
-                width: '200px',
-                height: '100px',
-                backgroundColor: color.deeppurple['100'],
-                border: `2px solid ${color.deeppurple['200']}`,
-                borderRadius: value,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: color.deeppurple['700'],
-                fontWeight: 500,
-              }}
-            >
-              {key}
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  ),
+const s = {
+  page: {
+    padding: '40px',
+    maxWidth: 960,
+    margin: '0 auto',
+    fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+  } as React.CSSProperties,
+  header: {
+    marginBottom: 48,
+  } as React.CSSProperties,
+  title: {
+    fontSize: 28,
+    fontWeight: 700,
+    color: '#171719',
+    margin: '0 0 8px',
+    letterSpacing: -0.5,
+  } as React.CSSProperties,
+  desc: {
+    fontSize: 15,
+    color: '#7b7e85',
+    margin: 0,
+    lineHeight: 1.5,
+  } as React.CSSProperties,
+  sectionTitle: {
+    fontSize: 13,
+    fontWeight: 600,
+    textTransform: 'uppercase' as const,
+    letterSpacing: 1,
+    color: '#8f9298',
+    margin: '0 0 16px',
+  } as React.CSSProperties,
+  tokenRow: {
+    display: 'flex',
+    alignItems: 'center',
+    padding: '12px 0',
+    borderBottom: '1px solid #f0f0f2',
+    gap: 16,
+  } as React.CSSProperties,
+  tokenName: {
+    fontSize: 13,
+    fontWeight: 500,
+    color: '#171719',
+    width: 120,
+    flexShrink: 0,
+    fontFamily: "'SF Mono', 'Fira Code', monospace",
+  } as React.CSSProperties,
+  tokenValue: {
+    fontSize: 12,
+    color: '#8f9298',
+    width: 60,
+    flexShrink: 0,
+    fontFamily: "'SF Mono', 'Fira Code', monospace",
+  } as React.CSSProperties,
 };
 
-// Gap 토큰
-export const Gap: Story = {
-  render: () => (
-    <div style={{ padding: '24px' }}>
-      <h2 style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '8px' }}>Gap Tokens</h2>
-      <p style={{ color: '#6b7280', marginBottom: '24px' }}>
-        요소들 사이의 간격을 일관되게 유지하기 위한 gap 토큰입니다.
-      </p>
+export const Spacing: Story = {
+  render: () => {
+    const highlights = [
+      'gap-1', 'gap-2', 'gap-3', 'gap-4', 'gap-6', 'gap-8', 'gap-10', 'gap-12', 'gap-16',
+    ];
+    const filteredGaps = Object.entries(spacing.gap).filter(([key]) =>
+      highlights.includes(key)
+    );
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
-        {Object.entries(spacing.gap).map(([key, value]) => (
-          <div key={key}>
-            <div
-              style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '12px' }}
-            >
-              <div style={{ width: '100px', fontWeight: 500 }}>{key}</div>
-              <div style={{ fontSize: '14px', color: '#6b7280' }}>{value}</div>
-            </div>
-            <div
-              style={{
-                backgroundColor: '#f9fafb',
-                padding: '16px',
-                border: '1px solid #e5e7eb',
-                borderRadius: '8px',
-              }}
-            >
-              <div style={{ display: 'flex', gap: value }}>
-                {[1, 2, 3].map((num) => (
-                  <div
-                    key={num}
-                    style={{
-                      width: '48px',
-                      height: '48px',
-                      backgroundColor: color.deeppurple['100'],
-                      border: `1px solid ${color.deeppurple['200']}`,
-                      borderRadius: '6px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontSize: '14px',
-                      color: color.deeppurple['700'],
-                      fontWeight: 500,
-                    }}
-                  >
-                    {num}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  ),
-};
+    return (
+      <div style={s.page}>
+        <div style={s.header}>
+          <h1 style={s.title}>Spacing</h1>
+          <p style={s.desc}>
+            일관된 간격 시스템으로 레이아웃의 리듬감을 유지합니다.
+          </p>
+        </div>
 
-// Shadow 토큰
-export const Shadow: Story = {
-  render: () => (
-    <div style={{ padding: '24px' }}>
-      <h2 style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '8px' }}>Shadow Tokens</h2>
-      <p style={{ color: '#6b7280', marginBottom: '32px' }}>
-        요소의 깊이감과 계층 구조를 표현하기 위한 그림자 토큰입니다.
-      </p>
-
-      {/* Light Mode */}
-      <div style={{ marginBottom: '48px' }}>
-        <h3
-          style={{
-            fontSize: '18px',
-            fontWeight: 600,
-            marginBottom: '16px',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-          }}
-        >
-          <span
-            style={{
-              width: '12px',
-              height: '12px',
-              backgroundColor: '#ffffff',
-              border: '2px solid #d1d5db',
-              borderRadius: '50%',
-            }}
-          ></span>
-          Light Mode
-        </h3>
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
-            gap: '24px',
-          }}
-        >
-          {Object.entries(shadow.light).map(([key, value]) => (
-            <div key={key}>
-              <div style={{ fontWeight: 500, marginBottom: '8px' }}>{key}</div>
-              <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '12px' }}>
-                {value}
-              </div>
-              <div
-                style={{
-                  height: '100px',
-                  borderRadius: '12px',
-                  backgroundColor: color.deeppurple['600'],
-                  boxShadow: value,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: '#ffffff',
-                  fontWeight: 500,
-                }}
-              >
-                {key}
+        <div>
+          {filteredGaps.map(([key, value]) => (
+            <div key={key} style={s.tokenRow}>
+              <span style={s.tokenName}>{key}</span>
+              <span style={s.tokenValue}>{value}</span>
+              <div style={{ flex: 1 }}>
+                <div
+                  style={{
+                    height: 24,
+                    width: value,
+                    background: 'linear-gradient(135deg, #bedbff 0%, #e9d4ff 100%)',
+                    borderRadius: 4,
+                    transition: 'width 0.2s ease',
+                  }}
+                />
               </div>
             </div>
           ))}
         </div>
-      </div>
 
-      {/* Dark Mode */}
-      <div>
-        <h3
-          style={{
-            fontSize: '18px',
-            fontWeight: 600,
-            marginBottom: '16px',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-          }}
-        >
-          <span
-            style={{
-              width: '12px',
-              height: '12px',
-              backgroundColor: '#171719',
-              borderRadius: '50%',
-            }}
-          ></span>
-          Dark Mode
-        </h3>
-        <div
-          style={{
-            backgroundColor: '#171719',
-            padding: '24px',
-            borderRadius: '12px',
-          }}
-        >
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
-              gap: '24px',
-            }}
-          >
-            {Object.entries(shadow.dark).map(([key, value]) => (
-              <div key={key}>
-                <div style={{ fontWeight: 500, marginBottom: '8px', color: '#ffffff' }}>{key}</div>
-                <div style={{ fontSize: '12px', color: '#9ca3af', marginBottom: '12px' }}>
-                  {value}
-                </div>
-                <div
-                  style={{
-                    height: '100px',
-                    borderRadius: '12px',
-                    backgroundColor: color.deeppurple['700'],
-                    boxShadow: value,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: '#ffffff',
-                    fontWeight: 500,
-                  }}
-                >
-                  {key}
-                </div>
-              </div>
+        <div style={{ marginTop: 32, padding: 20, background: '#f7f7f8', borderRadius: 12 }}>
+          <div style={{ fontSize: 12, color: '#8f9298', marginBottom: 8 }}>
+            전체 {Object.keys(spacing.gap).length}개 토큰 중 주요 값만 표시
+          </div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+            {Object.entries(spacing.gap).map(([key, value]) => (
+              <span
+                key={key}
+                style={{
+                  fontSize: 11,
+                  padding: '3px 8px',
+                  borderRadius: 4,
+                  background: highlights.includes(key) ? '#e9d4ff' : '#e6e7e9',
+                  color: highlights.includes(key) ? '#6c58be' : '#7b7e85',
+                  fontFamily: "'SF Mono', monospace",
+                }}
+              >
+                {key}: {value}
+              </span>
             ))}
           </div>
+        </div>
+      </div>
+    );
+  },
+};
+
+export const RadiusTokens: Story = {
+  name: 'Radius',
+  render: () => (
+    <div style={s.page}>
+      <div style={s.header}>
+        <h1 style={s.title}>Radius</h1>
+        <p style={s.desc}>모서리 둥글기로 컴포넌트의 성격을 구분합니다.</p>
+      </div>
+
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))',
+          gap: 16,
+        }}
+      >
+        {Object.entries(radius).map(([key, value]) => (
+          <div key={key} style={{ textAlign: 'center' }}>
+            <div
+              style={{
+                width: '100%',
+                aspectRatio: '1',
+                background: 'linear-gradient(135deg, #eff6ff 0%, #f3e8ff 100%)',
+                border: '2px solid #e6e7e9',
+                borderRadius: value,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginBottom: 10,
+              }}
+            >
+              <span
+                style={{
+                  fontSize: 13,
+                  fontWeight: 600,
+                  color: '#525459',
+                }}
+              >
+                {value}
+              </span>
+            </div>
+            <div style={{ fontSize: 13, fontWeight: 500, color: '#171719' }}>{key}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  ),
+};
+
+export const ShadowTokens: Story = {
+  name: 'Shadow',
+  render: () => (
+    <div style={s.page}>
+      <div style={s.header}>
+        <h1 style={s.title}>Shadow</h1>
+        <p style={s.desc}>그림자로 요소의 깊이감과 계층 구조를 표현합니다.</p>
+      </div>
+
+      <p style={s.sectionTitle}>Light Mode</p>
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+          gap: 24,
+          marginBottom: 48,
+        }}
+      >
+        {Object.entries(shadow.light).map(([key, value]) => (
+          <div key={key}>
+            <div
+              style={{
+                height: 120,
+                borderRadius: 16,
+                backgroundColor: '#ffffff',
+                boxShadow: value,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <span style={{ fontSize: 14, fontWeight: 600, color: '#525459' }}>{key}</span>
+            </div>
+            <div
+              style={{
+                marginTop: 10,
+                fontSize: 11,
+                color: '#8f9298',
+                fontFamily: "'SF Mono', monospace",
+                lineHeight: 1.4,
+                wordBreak: 'break-all',
+              }}
+            >
+              {value}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <p style={s.sectionTitle}>Dark Mode</p>
+      <div
+        style={{
+          backgroundColor: '#171719',
+          padding: 24,
+          borderRadius: 16,
+        }}
+      >
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+            gap: 24,
+          }}
+        >
+          {Object.entries(shadow.dark).map(([key, value]) => (
+            <div key={key}>
+              <div
+                style={{
+                  height: 120,
+                  borderRadius: 16,
+                  backgroundColor: '#303135',
+                  boxShadow: value,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <span style={{ fontSize: 14, fontWeight: 600, color: '#e6e7e9' }}>{key}</span>
+              </div>
+              <div
+                style={{
+                  marginTop: 10,
+                  fontSize: 11,
+                  color: '#7b7e85',
+                  fontFamily: "'SF Mono', monospace",
+                  lineHeight: 1.4,
+                  wordBreak: 'break-all',
+                }}
+              >
+                {value}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>

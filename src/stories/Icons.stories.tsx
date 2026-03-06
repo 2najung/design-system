@@ -9,23 +9,67 @@ const meta = {
   title: 'Foundation/Icons',
   parameters: {
     layout: 'fullscreen',
-    docs: {
-      description: {
-        component:
-          '디자인 시스템의 모든 아이콘을 확인하고 사용할 수 있습니다. 각 아이콘은 개별 컴포넌트로 export되어 있습니다.',
-      },
-    },
   },
-  tags: ['autodocs'],
 } satisfies Meta;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+const s = {
+  page: {
+    padding: '40px',
+    maxWidth: 960,
+    margin: '0 auto',
+    fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+  } as React.CSSProperties,
+  header: {
+    marginBottom: 32,
+  } as React.CSSProperties,
+  title: {
+    fontSize: 28,
+    fontWeight: 700,
+    color: '#171719',
+    margin: '0 0 8px',
+    letterSpacing: -0.5,
+  } as React.CSSProperties,
+  desc: {
+    fontSize: 15,
+    color: '#7b7e85',
+    margin: 0,
+    lineHeight: 1.5,
+  } as React.CSSProperties,
+  sectionTitle: {
+    fontSize: 13,
+    fontWeight: 600,
+    textTransform: 'uppercase' as const,
+    letterSpacing: 1,
+    color: '#8f9298',
+    margin: '0 0 16px',
+  } as React.CSSProperties,
+};
+
+const filterStyle: React.CSSProperties = {
+  padding: '8px 14px',
+  fontSize: 13,
+  border: '1px solid #e6e7e9',
+  borderRadius: 8,
+  outline: 'none',
+  background: '#ffffff',
+  color: '#171719',
+};
+
 const IconGallery = () => {
   const [search, setSearch] = useState('');
   const [selectedVariant, setSelectedVariant] = useState<'all' | 'fill' | 'outline'>('all');
   const [selectedSize, setSelectedSize] = useState<'all' | 16 | 20 | 24>('all');
+  const [copiedName, setCopiedName] = useState<string | null>(null);
+
+  const handleCopy = (componentName: string) => {
+    const importStr = `import { ${componentName} } from 'design-system';`;
+    navigator.clipboard.writeText(importStr);
+    setCopiedName(componentName);
+    setTimeout(() => setCopiedName(null), 1500);
+  };
 
   const filteredIcons = ICON_METADATA.filter((icon) => {
     const matchesSearch = icon.name.toLowerCase().includes(search.toLowerCase());
@@ -35,82 +79,61 @@ const IconGallery = () => {
   });
 
   return (
-    <div style={{ padding: '32px', backgroundColor: '#f9fafb', minHeight: '100vh' }}>
-      {/* Header */}
-      <div style={{ marginBottom: '32px' }}>
-        <h1 style={{ fontSize: '32px', fontWeight: 'bold', marginBottom: '8px' }}>Icons</h1>
-        <p style={{ fontSize: '16px', color: '#6b7280' }}>
-          {filteredIcons.length}개의 아이콘 · {ICON_METADATA.length}개 중
+    <div style={s.page}>
+      <div style={s.header}>
+        <h1 style={s.title}>Icons</h1>
+        <p style={s.desc}>
+          {ICON_METADATA.length}개의 아이콘 · Fill / Outline · 16px / 20px / 24px
         </p>
       </div>
 
-      {/* Filters */}
       <div
         style={{
           display: 'flex',
-          gap: '16px',
-          marginBottom: '32px',
+          gap: 10,
+          marginBottom: 28,
           flexWrap: 'wrap',
           alignItems: 'center',
         }}
       >
         <input
-          type='text'
-          placeholder='아이콘 검색...'
+          type="text"
+          placeholder="아이콘 검색..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          style={{
-            padding: '8px 16px',
-            fontSize: '14px',
-            border: '1px solid #d1d5db',
-            borderRadius: '8px',
-            width: '300px',
-            outline: 'none',
-          }}
+          style={{ ...filterStyle, width: 240 }}
         />
-
         <select
           value={selectedVariant}
           onChange={(e) => setSelectedVariant(e.target.value as any)}
-          style={{
-            padding: '8px 16px',
-            fontSize: '14px',
-            border: '1px solid #d1d5db',
-            borderRadius: '8px',
-            outline: 'none',
-          }}
+          style={filterStyle}
         >
-          <option value='all'>모든 스타일</option>
-          <option value='fill'>Fill</option>
-          <option value='outline'>Outline</option>
+          <option value="all">모든 스타일</option>
+          <option value="fill">Fill</option>
+          <option value="outline">Outline</option>
         </select>
-
         <select
           value={selectedSize}
           onChange={(e) =>
             setSelectedSize(e.target.value === 'all' ? 'all' : (Number(e.target.value) as any))
           }
-          style={{
-            padding: '8px 16px',
-            fontSize: '14px',
-            border: '1px solid #d1d5db',
-            borderRadius: '8px',
-            outline: 'none',
-          }}
+          style={filterStyle}
         >
-          <option value='all'>모든 크기</option>
-          <option value='16'>16px</option>
-          <option value='20'>20px</option>
-          <option value='24'>24px</option>
+          <option value="all">모든 크기</option>
+          <option value="16">16px</option>
+          <option value="20">20px</option>
+          <option value="24">24px</option>
         </select>
+        <span style={{ fontSize: 13, color: '#8f9298', marginLeft: 4 }}>
+          {filteredIcons.length}개 표시
+        </span>
       </div>
 
-      {/* Icon Grid */}
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))',
-          gap: '16px',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))',
+          gap: 12,
         }}
       >
         {filteredIcons.map((icon) => {
@@ -121,69 +144,73 @@ const IconGallery = () => {
           return (
             <div
               key={icon.componentName}
+              onClick={() => handleCopy(icon.componentName)}
               style={{
-                backgroundColor: 'white',
-                border: '1px solid #e5e7eb',
-                borderRadius: '12px',
-                padding: '16px',
+                backgroundColor: copiedName === icon.componentName ? '#f0fdf4' : '#ffffff',
+                border: `1px solid ${copiedName === icon.componentName ? '#00c950' : '#e6e7e9'}`,
+                borderRadius: 12,
+                padding: '20px 12px 14px',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                gap: '12px',
+                gap: 10,
                 cursor: 'pointer',
-                transition: 'all 0.2s',
+                transition: 'all 0.15s ease',
                 position: 'relative',
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
-                e.currentTarget.style.borderColor = '#3b82f6';
+                if (copiedName !== icon.componentName) {
+                  e.currentTarget.style.borderColor = '#cacccf';
+                  e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.04)';
+                }
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.boxShadow = 'none';
-                e.currentTarget.style.borderColor = '#e5e7eb';
+                if (copiedName !== icon.componentName) {
+                  e.currentTarget.style.borderColor = '#e6e7e9';
+                  e.currentTarget.style.boxShadow = 'none';
+                }
               }}
             >
-              {/* Icon Preview */}
+              {copiedName === icon.componentName && (
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: 6,
+                    right: 8,
+                    fontSize: 10,
+                    color: '#00c950',
+                    fontWeight: 600,
+                  }}
+                >
+                  Copied!
+                </div>
+              )}
               <div
                 style={{
-                  width: '48px',
-                  height: '48px',
+                  width: 40,
+                  height: 40,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
+                  color: '#171719',
                 }}
               >
                 <IconComponent width={icon.size} height={icon.size} />
               </div>
-
-              {/* Icon Info */}
               <div style={{ textAlign: 'center', width: '100%' }}>
                 <div
                   style={{
-                    fontSize: '11px',
-                    fontWeight: '600',
-                    color: '#111827',
-                    marginBottom: '4px',
+                    fontSize: 11,
+                    fontWeight: 500,
+                    color: '#171719',
+                    marginBottom: 2,
                     wordBreak: 'break-word',
-                  }}
-                >
-                  {icon.componentName}
-                </div>
-                <div
-                  style={{
-                    fontSize: '10px',
-                    color: '#9ca3af',
-                    marginBottom: '2px',
+                    fontFamily: "'SF Mono', monospace",
                   }}
                 >
                   {icon.name}
                 </div>
-                <div
-                  style={{
-                    fontSize: '10px',
-                    color: '#6b7280',
-                  }}
-                >
+                <div style={{ fontSize: 10, color: '#8f9298' }}>
                   {icon.variant} · {icon.size}px
                 </div>
               </div>
@@ -193,33 +220,18 @@ const IconGallery = () => {
       </div>
 
       {filteredIcons.length === 0 && (
-        <div
-          style={{
-            textAlign: 'center',
-            padding: '64px 16px',
-            color: '#9ca3af',
-          }}
-        >
-          <p style={{ fontSize: '16px' }}>검색 결과가 없습니다</p>
+        <div style={{ textAlign: 'center', padding: '64px 16px', color: '#8f9298' }}>
+          검색 결과가 없습니다
         </div>
       )}
     </div>
   );
 };
 
-export const AllIcons: Story = {
+export const Gallery: Story = {
   render: () => <IconGallery />,
-  parameters: {
-    docs: {
-      description: {
-        story:
-          '모든 아이콘을 검색하고 필터링할 수 있습니다. 아이콘을 클릭하여 import 구문을 복사할 수 있습니다.',
-      },
-    },
-  },
 };
 
-// 개별 사이즈별 예시
 export const Sizes: Story = {
   render: () => {
     const AccountFill16 = Icons.IconAccountFill16;
@@ -227,80 +239,117 @@ export const Sizes: Story = {
     const AccountFill24 = Icons.IconAccountFill24;
 
     return (
-      <div style={{ display: 'flex', gap: '32px', alignItems: 'center', padding: '32px' }}>
-        <div style={{ textAlign: 'center' }}>
-          <AccountFill16 />
-          <p style={{ marginTop: '8px', fontSize: '12px', color: '#6b7280' }}>16px</p>
-        </div>
-        <div style={{ textAlign: 'center' }}>
-          <AccountFill20 />
-          <p style={{ marginTop: '8px', fontSize: '12px', color: '#6b7280' }}>20px</p>
-        </div>
-        <div style={{ textAlign: 'center' }}>
-          <AccountFill24 />
-          <p style={{ marginTop: '8px', fontSize: '12px', color: '#6b7280' }}>24px</p>
+      <div style={s.page}>
+        <p style={s.sectionTitle}>Sizes</p>
+        <div style={{ display: 'flex', gap: 32, alignItems: 'center' }}>
+          {[
+            { Icon: AccountFill16, size: 16 },
+            { Icon: AccountFill20, size: 20 },
+            { Icon: AccountFill24, size: 24 },
+          ].map(({ Icon, size }) => (
+            <div key={size} style={{ textAlign: 'center' }}>
+              <div
+                style={{
+                  width: 56,
+                  height: 56,
+                  borderRadius: 12,
+                  background: '#f7f7f8',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginBottom: 8,
+                }}
+              >
+                <Icon />
+              </div>
+              <span style={{ fontSize: 13, color: '#525459', fontWeight: 500 }}>{size}px</span>
+            </div>
+          ))}
         </div>
       </div>
     );
   },
-  parameters: {
-    docs: {
-      description: {
-        story: '각 사이즈별로 최적화된 SVG가 제공됩니다.',
-      },
-    },
-  },
 };
 
-// Variants 예시
 export const Variants: Story = {
   render: () => {
     const AccountFill24 = Icons.IconAccountFill24;
     const AccountOutline24 = Icons.IconAccountOutline24;
 
     return (
-      <div style={{ display: 'flex', gap: '32px', alignItems: 'center', padding: '32px' }}>
-        <div style={{ textAlign: 'center' }}>
-          <AccountFill24 />
-          <p style={{ marginTop: '8px', fontSize: '12px', color: '#6b7280' }}>Fill</p>
-        </div>
-        <div style={{ textAlign: 'center' }}>
-          <AccountOutline24 />
-          <p style={{ marginTop: '8px', fontSize: '12px', color: '#6b7280' }}>Outline</p>
+      <div style={s.page}>
+        <p style={s.sectionTitle}>Variants</p>
+        <div style={{ display: 'flex', gap: 32, alignItems: 'center' }}>
+          {[
+            { Icon: AccountFill24, label: 'Fill' },
+            { Icon: AccountOutline24, label: 'Outline' },
+          ].map(({ Icon, label }) => (
+            <div key={label} style={{ textAlign: 'center' }}>
+              <div
+                style={{
+                  width: 56,
+                  height: 56,
+                  borderRadius: 12,
+                  background: '#f7f7f8',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginBottom: 8,
+                }}
+              >
+                <Icon />
+              </div>
+              <span style={{ fontSize: 13, color: '#525459', fontWeight: 500 }}>{label}</span>
+            </div>
+          ))}
         </div>
       </div>
     );
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Fill과 Outline 두 가지 스타일이 제공됩니다.',
-      },
-    },
   },
 };
 
-// 색상 커스터마이징
 export const CustomColors: Story = {
   render: () => {
     const AccountFill24 = Icons.IconAccountFill24;
+    const colors = ['#2b7fff', '#fb2c36', '#00c950', '#ff6900', '#ad46ff'];
 
     return (
-      <div style={{ display: 'flex', gap: '32px', alignItems: 'center', padding: '32px' }}>
-        <AccountFill24 style={{ color: '#3b82f6' }} />
-        <AccountFill24 style={{ color: '#ef4444' }} />
-        <AccountFill24 style={{ color: '#10b981' }} />
-        <AccountFill24 style={{ color: '#f59e0b' }} />
-        <AccountFill24 style={{ color: '#8b5cf6' }} />
+      <div style={s.page}>
+        <p style={s.sectionTitle}>Color Customization</p>
+        <p style={{ fontSize: 14, color: '#7b7e85', marginBottom: 20 }}>
+          currentColor를 사용하므로 CSS color 속성으로 색상을 변경할 수 있습니다.
+        </p>
+        <div style={{ display: 'flex', gap: 20, alignItems: 'center' }}>
+          {colors.map((c) => (
+            <div key={c} style={{ textAlign: 'center' }}>
+              <div
+                style={{
+                  width: 56,
+                  height: 56,
+                  borderRadius: 12,
+                  background: '#f7f7f8',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginBottom: 8,
+                  color: c,
+                }}
+              >
+                <AccountFill24 />
+              </div>
+              <span
+                style={{
+                  fontSize: 11,
+                  color: '#8f9298',
+                  fontFamily: "'SF Mono', monospace",
+                }}
+              >
+                {c}
+              </span>
+            </div>
+          ))}
+        </div>
       </div>
     );
-  },
-  parameters: {
-    docs: {
-      description: {
-        story:
-          'CSS color 속성으로 아이콘 색상을 자유롭게 변경할 수 있습니다. 모든 아이콘은 currentColor를 사용합니다.',
-      },
-    },
   },
 };
