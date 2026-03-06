@@ -68,9 +68,11 @@ const s = {
 const ColorStrip = ({
   name,
   colors,
+  showAll,
 }: {
   name: string;
   colors: Record<string, string>;
+  showAll: boolean;
 }) => {
   const [hoveredKey, setHoveredKey] = useState<string | null>(null);
   const entries = Object.entries(colors);
@@ -82,6 +84,7 @@ const ColorStrip = ({
         {entries.map(([key, value]) => {
           const isLight = ['25', '50', '100', '200'].includes(key);
           const isHovered = hoveredKey === key;
+          const isVisible = showAll || isHovered;
           return (
             <div
               key={key}
@@ -89,7 +92,7 @@ const ColorStrip = ({
               onMouseLeave={() => setHoveredKey(null)}
               style={{
                 flex: 1,
-                height: isHovered ? 72 : 56,
+                height: isVisible ? 72 : 56,
                 backgroundColor: value,
                 display: 'flex',
                 flexDirection: 'column',
@@ -101,7 +104,7 @@ const ColorStrip = ({
                 position: 'relative',
               }}
             >
-              {isHovered && (
+              {isVisible && (
                 <>
                   <span
                     style={{
@@ -184,43 +187,71 @@ const SemanticColorCard = ({
 );
 
 export const Palette: Story = {
-  render: () => (
-    <div style={s.page}>
-      <div style={s.header}>
-        <h1 style={s.title}>Color Palette</h1>
-        <p style={s.desc}>
-          14개의 컬러 팔레트와 시맨틱 컬러로 구성된 색상 시스템입니다.
-          <br />
-          각 팔레트는 50~950 단계로 세분화되어 있으며, hover로 상세 값을 확인할 수 있습니다.
-        </p>
+  render: () => {
+    const [showAll, setShowAll] = useState(false);
+
+    return (
+      <div style={s.page}>
+        <div style={s.header}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div>
+              <h1 style={s.title}>Color Palette</h1>
+              <p style={s.desc}>
+                14개의 컬러 팔레트와 시맨틱 컬러로 구성된 색상 시스템입니다.
+                <br />
+                각 팔레트는 50~950 단계로 세분화되어 있으며, hover로 상세 값을 확인할 수 있습니다.
+              </p>
+            </div>
+            <label
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 8,
+                cursor: 'pointer',
+                fontSize: 13,
+                color: '#525459',
+                userSelect: 'none',
+                flexShrink: 0,
+              }}
+            >
+              <input
+                type='checkbox'
+                checked={showAll}
+                onChange={(e) => setShowAll(e.target.checked)}
+                style={{ width: 16, height: 16, cursor: 'pointer', accentColor: '#3182f6' }}
+              />
+              값 모두 보기
+            </label>
+          </div>
+        </div>
+
+        <p style={s.sectionTitle}>Neutral</p>
+        <ColorStrip name="Gray" colors={color.gray} showAll={showAll} />
+        <ColorStrip name="Neutral" colors={color.neutral} showAll={showAll} />
+
+        <div style={{ height: 24 }} />
+        <p style={s.sectionTitle}>Primary Colors</p>
+        <ColorStrip name="Blue" colors={color.blue} showAll={showAll} />
+        <ColorStrip name="Purple" colors={color.purple} showAll={showAll} />
+        <ColorStrip name="Deep Purple" colors={color.deeppurple} showAll={showAll} />
+
+        <div style={{ height: 24 }} />
+        <p style={s.sectionTitle}>Status Colors</p>
+        <ColorStrip name="Red" colors={color.red} showAll={showAll} />
+        <ColorStrip name="Orange" colors={color.orange} showAll={showAll} />
+        <ColorStrip name="Yellow" colors={color.yellow} showAll={showAll} />
+        <ColorStrip name="Green" colors={color.green} showAll={showAll} />
+
+        <div style={{ height: 24 }} />
+        <p style={s.sectionTitle}>Extended</p>
+        <ColorStrip name="Lime" colors={color.lime} showAll={showAll} />
+        <ColorStrip name="Emerald" colors={color.emerald} showAll={showAll} />
+        <ColorStrip name="Teal" colors={color.teal} showAll={showAll} />
+        <ColorStrip name="Cyan" colors={color.cyan} showAll={showAll} />
+        <ColorStrip name="Pink" colors={color.pink} showAll={showAll} />
       </div>
-
-      <p style={s.sectionTitle}>Neutral</p>
-      <ColorStrip name="Gray" colors={color.gray} />
-      <ColorStrip name="Neutral" colors={color.neutral} />
-
-      <div style={{ height: 24 }} />
-      <p style={s.sectionTitle}>Primary Colors</p>
-      <ColorStrip name="Blue" colors={color.blue} />
-      <ColorStrip name="Purple" colors={color.purple} />
-      <ColorStrip name="Deep Purple" colors={color.deeppurple} />
-
-      <div style={{ height: 24 }} />
-      <p style={s.sectionTitle}>Status Colors</p>
-      <ColorStrip name="Red" colors={color.red} />
-      <ColorStrip name="Orange" colors={color.orange} />
-      <ColorStrip name="Yellow" colors={color.yellow} />
-      <ColorStrip name="Green" colors={color.green} />
-
-      <div style={{ height: 24 }} />
-      <p style={s.sectionTitle}>Extended</p>
-      <ColorStrip name="Lime" colors={color.lime} />
-      <ColorStrip name="Emerald" colors={color.emerald} />
-      <ColorStrip name="Teal" colors={color.teal} />
-      <ColorStrip name="Cyan" colors={color.cyan} />
-      <ColorStrip name="Pink" colors={color.pink} />
-    </div>
-  ),
+    );
+  },
 };
 
 export const SemanticColors: Story = {
