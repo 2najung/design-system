@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
-import BannerImage from '../assets/images/llmcapsule_banner_dan25.svg';
+import BannerImage from '../assets/images/banner_sample.svg';
 import { TopBanner, TopBannerList } from '../components/TopBanner';
 
 // S3 JSON 데이터 타입 정의
@@ -236,7 +236,7 @@ S3 JSON 데이터를 실제로 fetch하여 표시하는 예시입니다.
 
 **JSON 구조:**
 - \`start\`, \`end\`: 노출 기간 (ISO 8601 형식)
-- \`channels\`: 노출할 채널 목록 (azoo, capsule, titan)
+- \`channels\`: 노출할 채널 목록
 - \`env\`: 환경 (prod, dev, staging)
 - \`kor\`, \`eng\`: 언어별 이미지 URL과 랜딩 URL
 
