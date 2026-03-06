@@ -3,53 +3,20 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { SolidButton } from '../components/Button/SolidButton';
+import { OutlineButton } from '../components/Button/OutlineButton';
 import { Tooltip } from '../components/Tooltip/Tooltip';
-import type { TooltipProps } from '../components/Tooltip/types';
 
 const meta = {
   title: 'Components/Feedback/Tooltip',
   component: Tooltip,
   tags: ['autodocs'],
   parameters: {
-    layout: 'centered',
+    layout: 'fullscreen',
     docs: {
       description: {
         component:
-          'Tooltip은 아이콘, 버튼, 텍스트 등 인터페이스 요소에 마우스를 오버하거나 포커스했을 때 간결한 정보를 보조적으로 제공하는 컴포넌트입니다.',
+          '인터페이스 요소에 마우스를 오버하거나 포커스했을 때 간결한 정보를 제공하는 컴포넌트입니다. Primary(어두운 배경)와 Secondary(밝은 배경) 2가지 variant를 지원합니다.',
       },
-    },
-  },
-  argTypes: {
-    variant: {
-      control: 'select',
-      options: ['primary', 'secondary'],
-      description: '툴팁의 스타일 변형을 설정합니다.',
-    },
-    placement: {
-      control: 'select',
-      options: [
-        'top-left',
-        'top-center',
-        'top-right',
-        'bottom-left',
-        'bottom-center',
-        'bottom-right',
-        'left',
-        'right',
-      ],
-      description: '툴팁이 표시되는 위치를 설정합니다.',
-    },
-    text: {
-      control: 'text',
-      description: '툴팁에 표시될 텍스트입니다.',
-    },
-    hotkey: {
-      control: 'text',
-      description: '단축키 텍스트입니다.',
-    },
-    offset: {
-      control: 'number',
-      description: '트리거 요소와 툴팁 사이의 간격(px)입니다.',
     },
   },
 } satisfies Meta<typeof Tooltip>;
@@ -57,115 +24,158 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Primary: Story = {
+const s = {
+  page: {
+    padding: '40px',
+    maxWidth: 960,
+    margin: '0 auto',
+    fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+  } as React.CSSProperties,
+  header: {
+    marginBottom: 48,
+  } as React.CSSProperties,
+  title: {
+    fontSize: 28,
+    fontWeight: 700,
+    color: '#171719',
+    margin: '0 0 8px',
+    letterSpacing: -0.5,
+  } as React.CSSProperties,
+  desc: {
+    fontSize: 15,
+    color: '#7b7e85',
+    margin: 0,
+    lineHeight: 1.5,
+  } as React.CSSProperties,
+  sectionTitle: {
+    fontSize: 13,
+    fontWeight: 600,
+    textTransform: 'uppercase' as const,
+    letterSpacing: 1,
+    color: '#8f9298',
+    margin: '0 0 16px',
+  } as React.CSSProperties,
+  card: {
+    border: '1px solid #e6e7e9',
+    borderRadius: 12,
+    padding: '24px',
+    marginBottom: 16,
+  } as React.CSSProperties,
+  label: {
+    fontSize: 11,
+    color: '#8f9298',
+    fontFamily: "'SF Mono', monospace",
+  } as React.CSSProperties,
+};
+
+// ─── Playground ──────────────────────────────────────────────
+export const Playground: Story = {
+  parameters: { layout: 'centered' },
   render: (args) => (
-    <Tooltip {...args}>
-      <SolidButton>Hover me</SolidButton>
-    </Tooltip>
+    <div style={{ padding: 100 }}>
+      <Tooltip {...args}>
+        <SolidButton>Hover me</SolidButton>
+      </Tooltip>
+    </div>
   ),
   args: {
     text: 'Tooltip text',
     variant: 'primary',
     placement: 'top-center',
   },
-};
-
-export const Secondary: Story = {
-  render: (args) => (
-    <Tooltip {...args}>
-      <SolidButton>Hover me</SolidButton>
-    </Tooltip>
-  ),
-  args: {
-    text: 'Tooltip text',
-    variant: 'secondary',
-    placement: 'top-center',
+  argTypes: {
+    variant: { control: 'select', options: ['primary', 'secondary'] },
+    placement: {
+      control: 'select',
+      options: ['top-left', 'top-center', 'top-right', 'bottom-left', 'bottom-center', 'bottom-right', 'left', 'right'],
+    },
+    text: { control: 'text' },
+    hotkey: { control: 'text' },
+    offset: { control: 'number' },
   },
 };
 
-export const WithHotkey: Story = {
-  render: (args) => (
-    <Tooltip {...args}>
-      <SolidButton>Hover me</SolidButton>
-    </Tooltip>
-  ),
-  args: {
-    text: 'Tooltip text',
-    hotkey: '⌘V',
-    variant: 'primary',
-    placement: 'top-center',
-  },
-};
-
-export const Placements: Story = {
+// ─── Overview ────────────────────────────────────────────────
+export const Overview: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: '80px',
-        padding: '100px',
-      }}
-    >
-      <div style={{ display: 'flex', gap: '40px' }}>
-        <Tooltip text='Top Left' placement='top-left'>
-          <SolidButton>Top Left</SolidButton>
-        </Tooltip>
-        <Tooltip text='Top Center' placement='top-center'>
-          <SolidButton>Top Center</SolidButton>
-        </Tooltip>
-        <Tooltip text='Top Right' placement='top-right'>
-          <SolidButton>Top Right</SolidButton>
-        </Tooltip>
+    <div style={s.page}>
+      <div style={s.header}>
+        <h1 style={s.title}>Tooltip</h1>
+        <p style={s.desc}>
+          Primary(어두운 배경)와 Secondary(밝은 배경) 2가지 variant, 8가지 placement를 지원합니다.
+          <br />
+          버튼에 마우스를 올려 각 방향의 Tooltip을 확인하세요.
+        </p>
       </div>
-      <div style={{ display: 'flex', gap: '200px' }}>
-        <Tooltip text='Left' placement='left'>
-          <SolidButton>Left</SolidButton>
-        </Tooltip>
-        <Tooltip text='Right' placement='right'>
-          <SolidButton>Right</SolidButton>
-        </Tooltip>
+
+      <p style={s.sectionTitle}>Variants</p>
+      <div style={s.card}>
+        <div style={{ display: 'flex', gap: 24, padding: '40px 0' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+            <Tooltip text='Primary tooltip' hotkey='⌘V' variant='primary' placement='top-center'>
+              <SolidButton>Primary</SolidButton>
+            </Tooltip>
+            <span style={s.label}>primary (dark bg)</span>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+            <Tooltip text='Secondary tooltip' hotkey='⌘V' variant='secondary' placement='top-center'>
+              <OutlineButton variant='secondary'>Secondary</OutlineButton>
+            </Tooltip>
+            <span style={s.label}>secondary (light bg)</span>
+          </div>
+        </div>
       </div>
-      <div style={{ display: 'flex', gap: '40px' }}>
-        <Tooltip text='Bottom Left' placement='bottom-left'>
-          <SolidButton>Bottom Left</SolidButton>
-        </Tooltip>
-        <Tooltip text='Bottom Center' placement='bottom-center'>
-          <SolidButton>Bottom Center</SolidButton>
-        </Tooltip>
-        <Tooltip text='Bottom Right' placement='bottom-right'>
-          <SolidButton>Bottom Right</SolidButton>
-        </Tooltip>
+
+      <p style={s.sectionTitle}>Placements</p>
+      <div style={s.card}>
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: 60,
+          padding: '60px 0',
+        }}>
+          <div style={{ display: 'flex', gap: 24 }}>
+            {(['top-left', 'top-center', 'top-right'] as const).map((placement) => (
+              <Tooltip key={placement} text={placement} placement={placement}>
+                <SolidButton variant='secondary' size='small'>{placement}</SolidButton>
+              </Tooltip>
+            ))}
+          </div>
+          <div style={{ display: 'flex', gap: 160 }}>
+            <Tooltip text='left' placement='left'>
+              <SolidButton variant='secondary' size='small'>left</SolidButton>
+            </Tooltip>
+            <Tooltip text='right' placement='right'>
+              <SolidButton variant='secondary' size='small'>right</SolidButton>
+            </Tooltip>
+          </div>
+          <div style={{ display: 'flex', gap: 24 }}>
+            {(['bottom-left', 'bottom-center', 'bottom-right'] as const).map((placement) => (
+              <Tooltip key={placement} text={placement} placement={placement}>
+                <SolidButton variant='secondary' size='small'>{placement}</SolidButton>
+              </Tooltip>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <p style={s.sectionTitle}>With Hotkey</p>
+      <div style={s.card}>
+        <div style={{ display: 'flex', gap: 16, padding: '40px 0' }}>
+          {([
+            { text: '복사', hotkey: '⌘C' },
+            { text: '붙여넣기', hotkey: '⌘V' },
+            { text: '실행 취소', hotkey: '⌘Z' },
+            { text: '저장', hotkey: '⌘S' },
+          ]).map(({ text, hotkey }) => (
+            <Tooltip key={text} text={text} hotkey={hotkey} placement='top-center'>
+              <OutlineButton variant='secondary' size='small'>{text}</OutlineButton>
+            </Tooltip>
+          ))}
+        </div>
       </div>
     </div>
   ),
-  parameters: {
-    docs: {
-      description: {
-        story:
-          '툴팁의 위치를 top-left, top-center, top-right, bottom-left, bottom-center, bottom-right, left, right로 설정할 수 있습니다.',
-      },
-    },
-  },
-};
-
-export const Variants: Story = {
-  render: () => (
-    <div style={{ display: 'flex', gap: '40px', padding: '40px' }}>
-      <Tooltip text='Primary tooltip' hotkey='⌘V' variant='primary'>
-        <SolidButton>Primary</SolidButton>
-      </Tooltip>
-      <Tooltip text='Secondary tooltip' hotkey='⌘V' variant='secondary'>
-        <SolidButton variant='secondary'>Secondary</SolidButton>
-      </Tooltip>
-    </div>
-  ),
-  parameters: {
-    docs: {
-      description: {
-        story: 'Primary는 어두운 배경, Secondary는 밝은 배경과 테두리를 가집니다.',
-      },
-    },
-  },
 };
